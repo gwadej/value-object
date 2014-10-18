@@ -5,6 +5,7 @@ use strict;
 
 our $VERSION = '0.01';
 
+# RFC 1123 and 2181
 sub is_valid_domain_name
 {
     my ($poss_domain) = @_;
@@ -17,6 +18,7 @@ sub is_valid_domain_name
     # that it really shouldn't matter in real usage.
 }
 
+# RFC 1123 and 2181
 sub is_valid_domain_label
 {
     my ($poss_label) = @_;
