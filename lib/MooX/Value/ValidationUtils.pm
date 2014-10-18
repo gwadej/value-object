@@ -11,6 +11,10 @@ sub is_valid_domain_name
     return unless defined $poss_domain;
     return if !length $poss_domain or length $poss_domain > 255;
     return $poss_domain =~ m/\A(?:[a-zA-Z0-9](?:[-a-zA-Z0-9]{0,61}[a-zA-Z0-9])?\.)*[a-zA-Z0-9](?:[-a-zA-Z0-9]{0,61}[a-zA-Z0-9])?\.?\z/;
+    # NOTE: we could split and do length check on labels. This turns out to be
+    # faster when the label lengths are long. Not much difference except in
+    # pathological cases. Either version is fast enough (10s of thousands/sec)
+    # that it really shouldn't matter in real usage.
 }
 
 1;
