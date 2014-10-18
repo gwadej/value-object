@@ -24,6 +24,14 @@ sub new_canonical
     return $class->new( $value );
 }
 
+sub make_subdomain
+{
+    my ($self, $label) = @_;
+    die __PACKAGE__ . ': undefined label' unless defined $label;
+    die __PACKAGE__ .': Not a DomainLabel' unless eval { $label->isa( 'MooX::Value::DomainLabel' ); };
+    return __PACKAGE__->new( $label->value . '.' . $self->value );
+}
+
 1;
 __END__
 
