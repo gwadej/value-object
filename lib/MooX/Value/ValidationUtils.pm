@@ -22,7 +22,7 @@ sub is_valid_domain_label
     my ($poss_label) = @_;
     return unless defined $poss_label;
     return if !length $poss_label or length $poss_label > 63;
-    return $poss_label =~ m/\A[a-zA-Z0-9](?:[-a-zA-Z0-9]{0,61}[a-zA-Z0-9])?\z/;
+    return $poss_label =~ m/\A[a-zA-Z0-9](?:[-a-zA-Z0-9]*[a-zA-Z0-9])?\z/;
 }
 
 1;
