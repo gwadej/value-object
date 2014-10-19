@@ -42,7 +42,7 @@ __END__
 
 =head1 NAME
 
-MooX::Value - [One line description of module's purpose here]
+MooX::Value - Base class for minimal Value Object classes
 
 =head1 VERSION
 
@@ -50,91 +50,110 @@ This document describes MooX::Value version 0.01
 
 =head1 SYNOPSIS
 
-    use MooX::Value;
+    package MooX::Value::Identifier;
 
-=for author to fill in:
-    Brief code example(s) here showing commonest usage(s).
-    This section will be as far as many users bother reading
-    so make it as educational and exeplary as possible.
+    use Moo;
+    use namespace::clean;
+
+    extends 'MooX::Value';
+
+    sub _is_valid
+    {
+        my ($self, $value) = @_;
+        return $value =~ m/\A[a-zA-Z_]\w*\z/;
+    }
+
 
 =head1 DESCRIPTION
 
-=for author to fill in:
-    Write a full description of the module and its features here.
-    Use subsections (=head2, =head3) as appropriate.
+This class serves as a base class for classes implementing the Value Object
+pattern. The core principles of a Value Object class are:
+
+=over 4
+
+=item The meaning of the object is solely its value.
+
+=item The value of the object is immutable.
+
+=item The object is validated on creation.
+
+=back
+
+Every Value object has a minimum of a C<value> method that returns its value.
+There is no mutator methods that allow for changing the value of the object. If
+you need an object with a new value, create one.
+
+The core of this particular Value Object implementation is the validation on
+creation.  Every subclass of C<MooX::Value> must override the C<_is_valid>
+method. This method is what determines the validity of the supplied value. If
+the supplied value is not valid, an exception is thrown. The result is that any
+Value object is guaranteed to be validated by its constructor.
+
+There is a temptation when designing a Value object to include extra
+functionality into the class. The C<MooX::Value> class instead aims for the
+minimal function consistent with the requirements listed above. If a subclass
+needs more functionality it can be added at the point of need.
 
 =head1 INTERFACE
 
-=for author to fill in:
-    Write a separate section listing the public components of the modules
-    interface. These normally consist of either subroutines that may be
-    exported, or methods that may be called on objects belonging to the
-    classes provided by the module.
+=head2 Public Interface
+
+=head3 $class->new( $value )
+
+The new method is a constructor taking a single value. If the value is deemed
+valid by the C<_is_valid> internal method, an object is returned. Otherwise an
+exception is thrown.
+
+=head3 $obj->value()
+
+Return a copy of the value of the C<MooX::Value>-derived object. This method
+should not return modifiable internal state.
+
+=head2 Subclassing Interface
+
+=head3 $self->_is_valid()
+
+This method B<must> be overridden in any subclass. It performs the validation
+on the supplied value and returns C<true> if the parameter is valid and
+C<false> otherwise.
+
+=head3 $self->_ensure_valid()
+
+This method calls the C<_is_valid> method and throws an exception on failure.
+It may be overridden to provide more useful exceptions.
+
+=head2 Internal Interface
+
+=head3 BUILDARGS
+
+Internal function that makes the simple constructor compatible with the C<Moo>
+constructor interface.
+
+=head3 BUILD
+
+Internal function that validates the constructor input.
 
 =head1 DIAGNOSTICS
 
-=for author to fill in:
-    List every single error and warning message that the module can
-    generate (even the ones that will "never happen"), with a full
-    explanation of each problem, one or more likely causes, and any
-    suggested remedies.
+=item C<< %s: Invalid parameter >>
 
-=over
-
-=item C<< Error message here, perhaps with %s placeholders >>
-
-[Description of error here]
-
-=item C<< Another error message here >>
-
-[Description of error here]
-
-[Et cetera, et cetera]
+The supplied parameter is not valid for the Value class.
 
 =back
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
-=for author to fill in:
-    A full explanation of any configuration system(s) used by the
-    module, including the names and locations of any configuration
-    files, and the meaning of any environment variables or properties
-    that can be set. These descriptions must also include details of any
-    configuration language used.
-
 MooX::Value requires no configuration files or environment variables.
 
 =head1 DEPENDENCIES
 
-=for author to fill in:
-    A list of all the other modules that this module relies upon,
-    including any restrictions on versions, and an indication whether
-    the module is part of the standard Perl distribution, part of the
-    module's distribution, or must be installed separately. ]
-
-None.
+L<Moo>, L<namespace::clean>
 
 =head1 INCOMPATIBILITIES
-
-=for author to fill in:
-    A list of any modules that this module cannot be used in conjunction
-    with. This may be due to name conflicts in the interface, or
-    competition for system or program resources, or due to internal
-    limitations of Perl (for example, many modules that use source code
-    filters are mutually incompatible).
 
 None reported.
 
 =head1 BUGS AND LIMITATIONS
-
-=for author to fill in:
-    A list of known problems with the module, together with some
-    indication Whether they are likely to be fixed in an upcoming
-    release. Also a list of restrictions on the features the module
-    does provide: data types that cannot be handled, performance issues
-    and the circumstances in which they may arise, practical
-    limitations on the size of data sets, special cases that are not
-    (yet) handled, etc.
 
 No bugs have been reported.
 
