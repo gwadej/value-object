@@ -1,58 +1,47 @@
-package MooX::Value::ValidationUtils;
+package MooX::Value::EmailAddress;
 
 use warnings;
 use strict;
+use Moo;
+use namespace::clean;
+
+use MooX::Value::ValidationUtils;
+use MooX::Value::Domain;
 
 our $VERSION = '0.01';
 
-# RFC 1123 and 2181
-sub is_valid_domain_name
+extends 'MooX::Value';
+
+sub _is_valid
 {
-    my ($poss_domain) = @_;
-    return unless defined $poss_domain;
-    return if !length $poss_domain or length $poss_domain > 255;
-    return $poss_domain =~ m{\A                          # start of string
-                               (?:                       # subdomain labels
-                                  [a-zA-Z0-9]            # no hyphens at front
-                                  (?:[-a-zA-Z0-9]{0,61}  # hyphens allowed in middle
-                                     [a-zA-Z0-9])?       # no hyphen at end
-                                     \.                  # dot separator
-                               )*
-                               [a-zA-Z0-9]               # no hyphens at front of top level
-                               (?:[-a-zA-Z0-9]{0,61}     # hyphens in middle of top level
-                                  [a-zA-Z0-9])?          # no hyphens at end of top level
-                               \.?\z}x;                  # trailing dot allowed at end for root
-    # NOTE: we could split and do length check on labels. This turns out to be
-    # faster when the label lengths are long. Not much difference except in
-    # pathological cases. Either version is fast enough (10s of thousands/sec)
-    # that it really shouldn't matter in real usage.
+    my ($self, $value) = @_;
+    die __PACKAGE__ . ': undefined value' unless defined $value;
+    die __PACKAGE__ . ': missing domain'  unless $value =~ tr/@//;
+    my ($lp, $dom) = split /@/, $value, 2;
+    return MooX::Value::ValidationUtils::is_valid_email_local_part( $lp )
+        && MooX::Value::ValidationUtils::is_valid_domain_name( $dom );
 }
 
-# RFC 1123 and 2181
-sub is_valid_domain_label
+sub local_part
 {
-    my ($poss_label) = @_;
-    return unless defined $poss_label;
-    return if !length $poss_label or length $poss_label > 63;
-    return $poss_label =~ m{\A                    # start of string
-                              [a-zA-Z0-9]         # no hyphens at start
-                              (?:[-a-zA-Z0-9]*    # hyphens allowed here
-                                 [a-zA-Z0-9])?    # no hyphens at end
-                            \z}x;
+    my ($self) = @_;
+    return substr( $self->value, 0, index( $self->value, '@' ) );
 }
 
-# RFC 5322
-sub is_valid_email_local_part
+sub domain
 {
-    my ($poss_part) = @_;
-    return unless defined $poss_part;
-    return if !length $poss_part || length $poss_part > 64;
-    return $poss_part =~ m/\A"(?:\\.|[^!#-[\]-~])+"\z/   # quoted string (all 7-bit ASCII except \ and " unless quoted)
-        || $poss_part =~ m{\A[a-zA-Z0-9!#\$\%&'*+\-/=?^_`{|}~]+       # any 'atext' characters
-                             (?:\.                                    # separated by dots
-                                  [a-zA-Z0-9!#\$\%&'*+\-/=?^_`{|}~]+  # any 'atext' characters
-                             )*
-                           \z}x;
+    my ($self) = @_;
+    return MooX::Value::Domain->new( substr( $self->value, index( $self->value, '@' )+1 ) );
+}
+
+sub new_canonical
+{
+    my ($class, $value) = @_;
+    die __PACKAGE__ . ': undefined value' unless defined $value;
+    die __PACKAGE__ . ': missing domain'  unless $value =~ tr/@//;
+    my ($lp, $dom) = split /@/, $value, 2;
+    $dom =~ tr/A-Z/a-z/;
+    return __PACKAGE__->new( "$lp\@$dom" );
 }
 
 1;
