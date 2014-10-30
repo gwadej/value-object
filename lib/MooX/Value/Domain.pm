@@ -37,106 +37,81 @@ __END__
 
 =head1 NAME
 
-<ModName> - [One line description of module's purpose here]
+MooX::Value::Domain - Value object class representing Internet domain names
 
 
 =head1 VERSION
 
-This document describes <ModName> version 0.01
+This document describes MooX::Value::Domain version 0.01
 
 
 =head1 SYNOPSIS
 
-    use <ModName>;
+    use MooX::Value::Domain;
 
-=for author to fill in:
-    Brief code example(s) here showing commonest usage(s).
-    This section will be as far as many users bother reading
-    so make it as educational and exeplary as possible.
+    my $mcpan = MooX::Value::Domain->new( 'metacpan.org' );
+    my $goog  = MooX::Value::Domain->new( 'google.com' );
+
+    my $domain = MooX::Value::Domain->new( $unsafe_domain_name );
+    # We'll only get here if the $unsafe_domain_name was a legal domain name
+
+    print "'", $domain->value, "' is a valid domain name.\n";
 
 =head1 DESCRIPTION
 
-=for author to fill in:
-    Write a full description of the module and its features here.
-    Use subsections (=head2, =head3) as appropriate.
+A C<MooX::Value::Domain> value object represents an Internet domain name as
+defined in RFCs 1123 and 2181. A fully qualified domain name cannot be more than
+255 characters in length and must be made up of labels separated by the '.'
+character. Each label can be no more than 63 characters in length and is made
+up of characters from a limited character set.
+
+The domain name specification allows for a trailing dot.
+
+If these criteria are not met, an exception is thrown.
 
 =head1 INTERFACE
 
-=for author to fill in:
-    Write a separate section listing the public components of the modules
-    interface. These normally consist of either subroutines that may be
-    exported, or methods that may be called on objects belonging to the
-    classes provided by the module.
+=head2 MooX::Value::Domain->new( $domstr )
 
-=head1 DIAGNOSTICS
+Create a new domain name object if the supplied string is a valid domain name.
+Otherwise throw an exception.
 
-=for author to fill in:
-    List every single error and warning message that the module can
-    generate (even the ones that will "never happen"), with a full
-    explanation of each problem, one or more likely causes, and any
-    suggested remedies.
+=head2 MooX::Value::Domain->new_canonical( $domstr )
 
-=over
+Create a new domain name object if the supplied string is a valid domain name.
+Otherwise throw an exception.
 
-=item C<< Error message here, perhaps with %s placeholders >>
+Unlike the C<new> method, the ASCII characters of the supplied C<$domstr> are
+lowercased before the domain is created. The canonical version of the domain
+name is always lowercase.
 
-[Description of error here]
+=head2 $dom->value()
 
-=item C<< Another error message here >>
+Returns a string that represents the domain name of the object.
 
-[Description of error here]
+=head2 $dom->make_subdomain( $label )
 
-[Et cetera, et cetera]
-
-=back
+Create a new C<MooX::Value::Domain> object that is created when the supplied label
+is used as a subdomain of the domain represented by C<$dom>.
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
-=for author to fill in:
-    A full explanation of any configuration system(s) used by the
-    module, including the names and locations of any configuration
-    files, and the meaning of any environment variables or properties
-    that can be set. These descriptions must also include details of any
-    configuration language used.
-
-<ModName> requires no configuration files or environment variables.
+C<MooX::Value::Domain> requires no configuration files or environment variables.
 
 =head1 DEPENDENCIES
 
-=for author to fill in:
-    A list of all the other modules that this module relies upon,
-    including any restrictions on versions, and an indication whether
-    the module is part of the standard Perl distribution, part of the
-    module's distribution, or must be installed separately. ]
-
-None.
+L<Moo>, L<namespace::clean>
 
 =head1 INCOMPATIBILITIES
-
-=for author to fill in:
-    A list of any modules that this module cannot be used in conjunction
-    with. This may be due to name conflicts in the interface, or
-    competition for system or program resources, or due to internal
-    limitations of Perl (for example, many modules that use source code
-    filters are mutually incompatible).
 
 None reported.
 
 =head1 BUGS AND LIMITATIONS
 
-=for author to fill in:
-    A list of known problems with the module, together with some
-    indication Whether they are likely to be fixed in an upcoming
-    release. Also a list of restrictions on the features the module
-    does provide: data types that cannot be handled, performance issues
-    and the circumstances in which they may arise, practical
-    limitations on the size of data sets, special cases that are not
-    (yet) handled, etc.
-
 No bugs have been reported.
 
 Please report any bugs or feature requests to
-C<bug-<RT NAME>@rt.cpan.org>, or through the web interface at
+C<bug-moox-value@rt.cpan.org>, or through the web interface at
 L<http://rt.cpan.org>.
 
 =head1 AUTHOR
@@ -145,7 +120,7 @@ G. Wade Johnson  C<< gwadej@cpan.org >>
 
 =head1 LICENCE AND COPYRIGHT
 
-Copyright (c) <YEAR>, G. Wade Johnson C<< gwadej@cpan.org >>. All rights reserved.
+Copyright (c) 2014, G. Wade Johnson C<< gwadej@cpan.org >>. All rights reserved.
 
 This module is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself. See L<perlartistic>.

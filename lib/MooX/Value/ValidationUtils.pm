@@ -60,106 +60,60 @@ __END__
 
 =head1 NAME
 
-<ModName> - [One line description of module's purpose here]
-
+MooX::Value::ValidationUtils - Utility functions for validation of value objects
 
 =head1 VERSION
 
-This document describes <ModName> version 0.01
-
+This document describes MooX::Value::ValidationUtils version 0.01
 
 =head1 SYNOPSIS
 
-    use <ModName>;
+    use MooX::Value::ValidationUtils;
 
-=for author to fill in:
-    Brief code example(s) here showing commonest usage(s).
-    This section will be as far as many users bother reading
-    so make it as educational and exeplary as possible.
+    print "Yes\n"
+        if MooX::Value::ValidationUtils::is_valid_domain_name( $foo );
 
 =head1 DESCRIPTION
 
-=for author to fill in:
-    Write a full description of the module and its features here.
-    Use subsections (=head2, =head3) as appropriate.
+Some C<MooX::Value>-derived objects share code needed for validation. Rather
+than duplicating the knowledge of that information in multiple value objects,
+the knowledge and utilities are collected into this module.
 
 =head1 INTERFACE
 
-=for author to fill in:
-    Write a separate section listing the public components of the modules
-    interface. These normally consist of either subroutines that may be
-    exported, or methods that may be called on objects belonging to the
-    classes provided by the module.
+=head2 is_valid_domain_name( $str )
 
-=head1 DIAGNOSTICS
+Returns true if the supplied C<$str> is a valid domain name as specified by
+RFCs 1123 and 2181. Otherwise, return false.
 
-=for author to fill in:
-    List every single error and warning message that the module can
-    generate (even the ones that will "never happen"), with a full
-    explanation of each problem, one or more likely causes, and any
-    suggested remedies.
+=head2 is_valid_domain_label( $str )
 
-=over
+Returns true if the supplied C<$str> is a valid domain label as specified by
+RFCs 1123 and 2181. Otherwise, return false.
 
-=item C<< Error message here, perhaps with %s placeholders >>
+=head2 is_valid_email_local_part( $str )
 
-[Description of error here]
-
-=item C<< Another error message here >>
-
-[Description of error here]
-
-[Et cetera, et cetera]
-
-=back
+Returns true if the supplied C<$str> is a valid email address as specified by
+RFC 5322. Otherwise, return false.
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
-=for author to fill in:
-    A full explanation of any configuration system(s) used by the
-    module, including the names and locations of any configuration
-    files, and the meaning of any environment variables or properties
-    that can be set. These descriptions must also include details of any
-    configuration language used.
-
-<ModName> requires no configuration files or environment variables.
+C<MooX::Value::ValidationUtils> requires no configuration files or environment variables.
 
 =head1 DEPENDENCIES
-
-=for author to fill in:
-    A list of all the other modules that this module relies upon,
-    including any restrictions on versions, and an indication whether
-    the module is part of the standard Perl distribution, part of the
-    module's distribution, or must be installed separately. ]
 
 None.
 
 =head1 INCOMPATIBILITIES
 
-=for author to fill in:
-    A list of any modules that this module cannot be used in conjunction
-    with. This may be due to name conflicts in the interface, or
-    competition for system or program resources, or due to internal
-    limitations of Perl (for example, many modules that use source code
-    filters are mutually incompatible).
-
 None reported.
 
 =head1 BUGS AND LIMITATIONS
 
-=for author to fill in:
-    A list of known problems with the module, together with some
-    indication Whether they are likely to be fixed in an upcoming
-    release. Also a list of restrictions on the features the module
-    does provide: data types that cannot be handled, performance issues
-    and the circumstances in which they may arise, practical
-    limitations on the size of data sets, special cases that are not
-    (yet) handled, etc.
-
 No bugs have been reported.
 
 Please report any bugs or feature requests to
-C<bug-<RT NAME>@rt.cpan.org>, or through the web interface at
+C<bug-moox-value@rt.cpan.org>, or through the web interface at
 L<http://rt.cpan.org>.
 
 =head1 AUTHOR
@@ -168,7 +122,7 @@ G. Wade Johnson  C<< gwadej@cpan.org >>
 
 =head1 LICENCE AND COPYRIGHT
 
-Copyright (c) <YEAR>, G. Wade Johnson C<< gwadej@cpan.org >>. All rights reserved.
+Copyright (c) 2014, G. Wade Johnson C<< gwadej@cpan.org >>. All rights reserved.
 
 This module is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself. See L<perlartistic>.
