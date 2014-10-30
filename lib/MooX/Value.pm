@@ -26,7 +26,7 @@ sub BUILD
 sub _ensure_valid
 {
     my ($self) = @_;
-    die ref($self) . ": Invalid parameter" unless $self->_is_valid( $self->{value} );
+    die ref($self) . ": Invalid parameter when creating value object." unless $self->_is_valid( $self->{value} );
     return;
 }
 
@@ -66,7 +66,7 @@ This document describes MooX::Value version 0.01
 
 =head1 DESCRIPTION
 
-This class serves as a base class for classes implementing the Value Object
+This class serves as a base class for classes implementing the I<Value Object>
 pattern. The core principles of a Value Object class are:
 
 =over 4
@@ -79,22 +79,29 @@ pattern. The core principles of a Value Object class are:
 
 =back
 
-Every Value object has a minimum of a C<value> method that returns its value.
-There is no mutator methods that allow for changing the value of the object. If
-you need an object with a new value, create one.
+Every C<MooX::Value>-derived object has a minimum of a C<value> method that
+returns its value.  There is no mutator methods that allow for changing the
+value of the object. If you need an object with a new value, create one. The
+concept is that one of these objects is more like the integer B<5>, the
+variable C<$v> that contains it. You cannot modify the value of B<5>, but you
+can make a new integer that is the value of B<5> changed by some amount.
 
 The core of this particular Value Object implementation is the validation on
-creation.  Every subclass of C<MooX::Value> must override the C<_is_valid>
+creation. Every subclass of C<MooX::Value> must override the C<_is_valid>
 method. This method is what determines the validity of the supplied value. If
 the supplied value is not valid, an exception is thrown. The result is that any
-Value object is guaranteed to be validated by its constructor.
+C<MooX::Value> object is guaranteed to be validated by its constructor.
 
 There is a temptation when designing a Value object to include extra
 functionality into the class. The C<MooX::Value> class instead aims for the
 minimal function consistent with the requirements listed above. If a subclass
-needs more functionality it can be added at the point of need.
+needs more functionality it can be added to that subclass at the point of need.
 
 =head1 INTERFACE
+
+The class definition is currently very new. There is a potential that the
+interface may change in the near-term. In particular, the L<Subclassing
+Interface> has a potential for some modification to make it more flexible.
 
 =head2 Public Interface
 
@@ -135,7 +142,7 @@ Internal function that validates the constructor input.
 
 =head1 DIAGNOSTICS
 
-=item C<< %s: Invalid parameter >>
+=item C<< %s: Invalid parameter when creating value object. >>
 
 The supplied parameter is not valid for the Value class.
 
