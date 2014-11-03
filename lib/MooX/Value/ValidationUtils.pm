@@ -6,53 +6,78 @@ use strict;
 our $VERSION = '0.01';
 
 # RFC 1123 and 2181
+sub why_invalid_domain_name
+{
+    my ($poss_domain) = @_;
+
+    return ( 'No domain supplied', '', undef ) unless defined $poss_domain;
+    return ( 'Domain must be between 1 and 255 octets in length.', '', undef )
+        if !length $poss_domain or length $poss_domain > 255;
+    my @labels = split( /\./, $poss_domain );
+    return ( __PACKAGE__ . ': At least one label is required', '', undef ) unless @labels;
+
+    # Final label can be empty
+    my $last = length $labels[0] ? $#labels : $#labels-1;
+    foreach my $label ( @labels[0 .. $last] )
+    {
+        my ($why, $long, $data) = why_invalid_domain_label( $label );
+        return ($why, $long, $label) if defined $why;
+    }
+    return;
+}
+
 sub is_valid_domain_name
 {
     my ($poss_domain) = @_;
-    return unless defined $poss_domain;
-    return if !length $poss_domain or length $poss_domain > 255;
-    return $poss_domain =~ m{\A                          # start of string
-                               (?:                       # subdomain labels
-                                  [a-zA-Z0-9]            # no hyphens at front
-                                  (?:[-a-zA-Z0-9]{0,61}  # hyphens allowed in middle
-                                     [a-zA-Z0-9])?       # no hyphen at end
-                                     \.                  # dot separator
-                               )*
-                               [a-zA-Z0-9]               # no hyphens at front of top level
-                               (?:[-a-zA-Z0-9]{0,61}     # hyphens in middle of top level
-                                  [a-zA-Z0-9])?          # no hyphens at end of top level
-                               \.?\z}x;                  # trailing dot allowed at end for root
-    # NOTE: we could split and do length check on labels. This turns out to be
-    # faster when the label lengths are long. Not much difference except in
-    # pathological cases. Either version is fast enough (10s of thousands/sec)
-    # that it really shouldn't matter in real usage.
+    my ($why) = why_invalid_domain_name( $poss_domain );
+    return !defined $why;
 }
 
 # RFC 1123 and 2181
+sub why_invalid_domain_label
+{
+    my ($poss_label) = @_;
+    return ( 'No domain label supplied', '', undef ) unless defined $poss_label;
+    return ( 'label is not in the length range 1 to 63', '', undef )
+        if !length $poss_label or length $poss_label > 63;
+    return ( 'label contains invalid characters.', '', undef )
+        unless $poss_label =~ m{\A[a-zA-Z0-9]        # No hyphens at front
+                                  (?:[-a-zA-Z0-9]*   # hyphens allowed in the middle
+                                     [a-zA-Z0-9])?   # No hyphens at the end
+                             \z}x;
+    return;
+}
+
 sub is_valid_domain_label
 {
     my ($poss_label) = @_;
-    return unless defined $poss_label;
-    return if !length $poss_label or length $poss_label > 63;
-    return $poss_label =~ m{\A                    # start of string
-                              [a-zA-Z0-9]         # no hyphens at start
-                              (?:[-a-zA-Z0-9]*    # hyphens allowed here
-                                 [a-zA-Z0-9])?    # no hyphens at end
-                            \z}x;
+    my ($why) = why_invalid_domain_label( $poss_label );
+    return !defined $why;
 }
 
+
 # RFC 5322
+sub why_invalid_email_local_part
+{
+    my ($poss_part) = @_;
+    return ( 'No email local part supplied', '', undef ) unless defined $poss_part;
+    return ( 'Local part is not in the length range 1 to 64', '', undef )
+        if !length $poss_part or length $poss_part > 64;
+    return ( 'Local part contains invalid characters.', '', undef )
+        unless $poss_part =~ m/\A"(?:\\.|[^!#-[\]-~])+"\z/   # quoted string (all 7-bit ASCII except \ and " unless quoted)
+            || $poss_part =~ m{\A[a-zA-Z0-9!#\$\%&'*+\-/=?^_`{|}~]+       # any 'atext' characters
+                                 (?:\.                                    # separated by dots
+                                      [a-zA-Z0-9!#\$\%&'*+\-/=?^_`{|}~]+  # any 'atext' characters
+                                 )*
+                               \z}x;
+    return;
+}
+
 sub is_valid_email_local_part
 {
     my ($poss_part) = @_;
-    return unless defined $poss_part;
-    return if !length $poss_part || length $poss_part > 64;
-    return $poss_part =~ m/\A"(?:\\.|[^!#-[\]-~])+"\z/   # quoted string (all 7-bit ASCII except \ and " unless quoted)
-        || $poss_part =~ m{\A[a-zA-Z0-9!#\$\%&'*+\-/=?^_`{|}~]+       # any 'atext' characters
-                             (?:\.                                    # separated by dots
-                                  [a-zA-Z0-9!#\$\%&'*+\-/=?^_`{|}~]+  # any 'atext' characters
-                             )*
-                           \z}x;
+    my ($why) = why_invalid_email_local_part( $poss_part );
+    return !defined $why;
 }
 
 1;
@@ -81,15 +106,42 @@ the knowledge and utilities are collected into this module.
 
 =head1 INTERFACE
 
+=head2 why_invalid_domain_name( $str )
+
+Returns a three item list if the supplied C<$str> is not a valid domain name
+as specified by RFCs 1123 and 2181. The first item is a short message
+describing the problem. The second item is empty and the third may contain a
+string with the part of the domain name that is invalid (depending on how it
+is invalid).
+
+Returns an empty list if C<$str> is a valid domain name.
+
 =head2 is_valid_domain_name( $str )
 
 Returns true if the supplied C<$str> is a valid domain name as specified by
 RFCs 1123 and 2181. Otherwise, return false.
 
+=head2 why_invalid_domain_label( $str )
+
+Returns a three item list if the supplied C<$str> is not a valid domain label
+as specified by RFCs 1123 and 2181. The first item is a short message
+describing the problem. The second item is empty and the third item is
+C<undef>.
+
+Returns an empty list if C<$str> is a valid domain label.
+
 =head2 is_valid_domain_label( $str )
 
 Returns true if the supplied C<$str> is a valid domain label as specified by
 RFCs 1123 and 2181. Otherwise, return false.
+
+=head2 why_invalid_email_local_part( $str )
+
+Returns a three item list if the supplied C<$str> is not a valid email local
+part as specified by RFC 5322. The first item is a short message describing
+the problem. The second item is empty and the third item is C<undef>.
+
+Returns an empty list if C<$str> is a valid email local part.
 
 =head2 is_valid_email_local_part( $str )
 

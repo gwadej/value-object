@@ -19,22 +19,32 @@ sub BUILDARGS
 sub BUILD
 {
     my ($self) = @_;
-    $self->_ensure_valid();
+    my ($why, $long, $data) = $self->_why_invalid( $self->{value} );
+    _throw_exception( $why, $long, $data ) if defined $why;
     return $self;
 }
 
-sub _ensure_valid
+# A subclass must override this method or _is_invalid to be able to create value objects.
+sub _why_invalid
 {
-    my ($self) = @_;
-    die ref($self) . ": Invalid parameter when creating value object." unless $self->_is_valid( $self->{value} );
+    my ($self, $value) = @_;
+    return ( ref($self) . ": Invalid parameter when creating value object.", "", undef )
+        unless $self->_is_valid( $value );
     return;
 }
 
-# A subclass must override this method to be able to create value objects.
+# A subclass must override this method or _why_invalid to be able to create value objects.
 sub _is_valid
 {
     my ($self, $value) = @_;
     return;
+}
+
+# Default exception support just uses die to throw an exception.
+sub _throw_exception
+{
+    my ($why, $longmsg, $data) = @_;
+    die $why;
 }
 
 1;
@@ -120,14 +130,48 @@ should not return modifiable internal state.
 
 =head3 $self->_is_valid()
 
-This method B<must> be overridden in any subclass. It performs the validation
-on the supplied value and returns C<true> if the parameter is valid and
-C<false> otherwise.
+This method B<must> be overridden in any subclass (unless you override
+C<_why_invalid> instead).
 
-=head3 $self->_ensure_valid()
+It performs the validation on the supplied value and returns C<true> if the
+parameter is valid and C<false> otherwise.
 
-This method calls the C<_is_valid> method and throws an exception on failure.
-It may be overridden to provide more useful exceptions.
+=head3 $self->_why_invalid()
+
+By default, this method calls the C<_is_invalid> method and returns c<undef> on
+success or a list of three values on failure. The default error message is
+generic, but it makes creating subclasses by just overriding C<_is_valid> easier.
+
+By overriding this method instead of C<_is_valid> you gain control over the
+error message reported in the exception. If the supplied value is not valid,
+C<_why_invalid> returns a list of three values:
+
+=over 4
+
+=item $why
+
+This is the only required return item. It is a short message thrown as the
+exception describing how the value is not valid.
+
+=item $longmsg
+
+This optional return item is intended to provide a more detailed error message
+than C<$why>. With the default exception method, this message is not used.
+
+=item $data
+
+This optional return item is intended to provide data from the invalidation that
+could be used for higher level reporting. This data is not used by the default
+exception method.
+
+=back
+
+=head3 $self->_throw_exception( $why, $longmsg, $data )
+
+This internal method handles the actual throwing of the exception. If you need
+to use something more advanced than a simple C<die>, you can override this
+method. The C<_throw_exception> method B<must> throw an exception by some
+means. It should never return.
 
 =head2 Internal Interface
 
@@ -141,6 +185,8 @@ constructor interface.
 Internal function that validates the constructor input.
 
 =head1 DIAGNOSTICS
+
+=over 4
 
 =item C<< %s: Invalid parameter when creating value object. >>
 

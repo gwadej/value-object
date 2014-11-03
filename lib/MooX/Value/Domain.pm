@@ -11,10 +11,12 @@ our $VERSION = '0.01';
 
 extends 'MooX::Value';
 
-sub _is_valid
+sub _why_invalid
 {
     my ($self, $value) = @_;
-    return MooX::Value::ValidationUtils::is_valid_domain_name( $value );
+    my ($why, $long, $data) = MooX::Value::ValidationUtils::why_invalid_domain_name( $value );
+    return ( __PACKAGE__ . ": $why", $long, $data ) if defined $why;
+    return;
 }
 
 sub new_canonical

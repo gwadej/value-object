@@ -12,36 +12,53 @@ our $VERSION = '0.01';
 
 extends 'MooX::Value';
 
-sub _is_valid
+sub _why_invalid
 {
     my ($self, $value) = @_;
-    die __PACKAGE__ . ': undefined value' unless defined $value;
-    die __PACKAGE__ . ': missing domain'  unless $value =~ tr/@//;
-    my ($lp, $dom) = split /@/, $value, 2;
-    return MooX::Value::ValidationUtils::is_valid_email_local_part( $lp )
-        && MooX::Value::ValidationUtils::is_valid_domain_name( $dom );
+    return ( __PACKAGE__ . ': undefined value', '', undef ) unless defined $value;
+    return ( __PACKAGE__ . ': missing domain', '', undef ) unless $value =~ tr/@//;
+
+    my $pos = rindex( $value, '@' );
+    {
+        my $lp = substr( $value, 0, $pos );
+        my ($why, $long, $data) = MooX::Value::ValidationUtils::why_invalid_email_local_part( $lp );
+        return ( __PACKAGE__ . ": $why", '', undef ) if defined $why;
+    }
+
+    {
+        my $dom = substr( $value, $pos+1 );
+        my ($why, $long, $data) = MooX::Value::ValidationUtils::why_invalid_domain_name( $dom );
+        return ( __PACKAGE__ . ": $why", '', $dom ) if defined $why;
+    }
+    return;
 }
 
 sub local_part
 {
     my ($self) = @_;
-    return substr( $self->value, 0, index( $self->value, '@' ) );
+    return substr( $self->value, 0, rindex( $self->value, '@' ) );
 }
 
 sub domain
 {
     my ($self) = @_;
-    return MooX::Value::Domain->new( substr( $self->value, index( $self->value, '@' )+1 ) );
+    return MooX::Value::Domain->new( substr( $self->value, rindex( $self->value, '@' )+1 ) );
 }
 
 sub new_canonical
 {
     my ($class, $value) = @_;
-    die __PACKAGE__ . ': undefined value' unless defined $value;
-    die __PACKAGE__ . ': missing domain'  unless $value =~ tr/@//;
-    my ($lp, $dom) = split /@/, $value, 2;
-    $dom =~ tr/A-Z/a-z/;
-    return __PACKAGE__->new( "$lp\@$dom" );
+
+    # Canonicalize if possible. If not, let normal validation proceed.
+    if( defined $value and $value =~ tr/@// )
+    {
+        my $pos = rindex( $value, '@' );
+        my $lp = substr( $value, 0, $pos );
+        my $dom = substr( $value, $pos+1 );
+        $dom =~ tr/A-Z/a-z/;
+        $value = "$lp\@$dom";
+    }
+    return __PACKAGE__->new( $value );
 }
 
 1;
