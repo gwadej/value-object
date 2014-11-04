@@ -63,7 +63,7 @@ sub why_invalid_email_local_part
     return ( 'No email local part supplied', '', undef ) unless defined $poss_part;
     return ( 'Local part is not in the length range 1 to 64', '', undef )
         if !length $poss_part or length $poss_part > 64;
-    return ( 'Local part contains invalid characters.', '', undef )
+    return ( 'Local part is not correct form.', '', undef )
         unless $poss_part =~ m/\A"(?:\\.|[^!#-[\]-~])+"\z/   # quoted string (all 7-bit ASCII except \ and " unless quoted)
             || $poss_part =~ m{\A[a-zA-Z0-9!#\$\%&'*+\-/=?^_`{|}~]+       # any 'atext' characters
                                  (?:\.                                    # separated by dots
