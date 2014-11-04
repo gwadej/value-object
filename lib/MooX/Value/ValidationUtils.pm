@@ -38,9 +38,9 @@ sub why_invalid_domain_label
 {
     my ($poss_label) = @_;
     return ( 'No domain label supplied', '', undef ) unless defined $poss_label;
-    return ( 'label is not in the length range 1 to 63', '', undef )
+    return ( 'Label is not in the length range 1 to 63', '', undef )
         if !length $poss_label or length $poss_label > 63;
-    return ( 'label contains invalid characters.', '', undef )
+    return ( 'Label is not the correct form.', '', undef )
         unless $poss_label =~ m{\A[a-zA-Z0-9]        # No hyphens at front
                                   (?:[-a-zA-Z0-9]*   # hyphens allowed in the middle
                                      [a-zA-Z0-9])?   # No hyphens at the end
