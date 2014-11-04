@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-use Test::More tests => 12;
+use Test::More tests => 19;
 use Test::Exception;
 
 use strict;
@@ -23,6 +23,15 @@ subtest "Doesn't create for invalid domains" => sub {
 }
 
 {
+    my $domain = MooX::Value::EmailAddress->new( '"gwade@j"@cpan.org' );
+    isa_ok( $domain, 'MooX::Value::EmailAddress' );
+    is( $domain->value, '"gwade@j"@cpan.org', "EmailAddress matches input" );
+    is( $domain->local_part,    '"gwade@j"', "EMailAddress local part matches input" );
+    isa_ok( $domain->domain, 'MooX::Value::Domain' );
+    is( $domain->domain->value, 'cpan.org', "EMailAddress domain matches input" );
+}
+
+{
     my $domain = MooX::Value::EmailAddress->new( 'gwadej@CPAN.ORG' );
     isa_ok( $domain, 'MooX::Value::EmailAddress' );
     is( $domain->value, 'gwadej@CPAN.ORG', "EmailAddress matches input" );
@@ -32,6 +41,12 @@ subtest "Doesn't create for invalid domains" => sub {
     my $domain = MooX::Value::EmailAddress->new_canonical( 'gwadej@cpan.org' );
     isa_ok( $domain, 'MooX::Value::EmailAddress' );
     is( $domain->value, 'gwadej@cpan.org', "EmailAddress matches input" );
+}
+
+{
+    my $domain = MooX::Value::EmailAddress->new_canonical( '"g@wadej"@cpan.org' );
+    isa_ok( $domain, 'MooX::Value::EmailAddress' );
+    is( $domain->value, '"g@wadej"@cpan.org', "EmailAddress matches input" );
 }
 
 {

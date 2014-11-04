@@ -1,4 +1,4 @@
-#!/usr/bin/env perl
+#!perl
 
 use Test::More;
 
@@ -13,6 +13,18 @@ my @valid_localpart = (
     ( map { [ "ab${_}cd", qq(multicharacter local part with "$_") ] } @chars),
     ( map { [ "ab${_}cd.ef${_}gh", qq(two part local part with "$_") ] } @chars),
     [ 'abcdefghijklmnopqrstuvwxyz.ABCDEFGHIJKLMNOPQRSTUVWXYZ.0123456789', 'max 64 octet local part' ],
+    [ '"ab\"cd"',  'quoted and contains a double quote' ],
+    [ '"ab@cd"',   'quoted and contains an "@" character' ],
+    [ '"ab(cd"',   'quoted and contains an "(" character' ],
+    [ '"ab)cd"',   'quoted and contains an ")" character' ],
+    [ '"ab\\cd"',  'quoted and contains an "\\" character' ],
+    [ '"ab[cd"',   'quoted and contains an "[" character' ],
+    [ '"ab]cd"',   'quoted and contains an "]" character' ],
+    [ '"ab:cd"',   'quoted and contains an ":" character' ],
+    [ '"ab;cd"',   'quoted and contains an ";" character' ],
+    [ '"ab,cd"',   'quoted and contains an "," character' ],
+    [ '"ab<cd"',   'quoted and contains an "<" character' ],
+    [ '"ab>cd"',   'quoted and contains an ">" character' ],
 );
 
 my @invalid_localpart = (
