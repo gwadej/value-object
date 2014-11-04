@@ -70,7 +70,7 @@ This document describes MooX::Value version 0.01
     sub _is_valid
     {
         my ($self, $value) = @_;
-        return $value =~ m/\A[a-zA-Z_]\w*\z/;
+        return $value =~ m/\A[a-zA-Z_][a-zA-Z0-9_]*\z/;
     }
 
 
@@ -91,21 +91,29 @@ pattern. The core principles of a Value Object class are:
 
 Every C<MooX::Value>-derived object has a minimum of a C<value> method that
 returns its value.  There is no mutator methods that allow for changing the
-value of the object. If you need an object with a new value, create one. The
-concept is that one of these objects is more like the integer B<5>, the
-variable C<$v> that contains it. You cannot modify the value of B<5>, but you
-can make a new integer that is the value of B<5> changed by some amount.
+value of the object. If you need an object with a new value, create a new
+object. The concept is that one of these objects is more like the integer B<5>,
+than the variable C<$v> that contains the value. You cannot modify the value of
+B<5>, but you can make a new integer that is the value of B<5> changed by some
+amount.
 
 The core of this particular Value Object implementation is the validation on
-creation. Every subclass of C<MooX::Value> must override the C<_is_valid>
-method. This method is what determines the validity of the supplied value. If
-the supplied value is not valid, an exception is thrown. The result is that any
-C<MooX::Value> object is guaranteed to be validated by its constructor.
+creation. Every subclass of C<MooX::Value> must override either the
+C<_is_valid> or the C<_why_invalid> method. The C<_is_valid> method determines
+the validity of the supplied value. If the supplied value is not valid,
+C<_is_valid> returns false and the constructor throws an exception. If you
+prefer to have control over the message of the exception, you can override
+C<_why_invalid> which returns C<undef> for a valid value and information about
+why the value is not valid otherwise. The result is that any C<MooX::Value>
+object is guaranteed to be validated by its constructor.
 
 There is a temptation when designing a Value object to include extra
 functionality into the class. The C<MooX::Value> class instead aims for the
 minimal function consistent with the requirements listed above. If a subclass
 needs more functionality it can be added to that subclass at the point of need.
+Valid extra functionality might be accessors for part of the value if it is
+made of smaller pieces. Any mutator methods would violate the fundamental
+design of the C<MooX::Value> base class and are, therefore, discouraged.
 
 =head1 INTERFACE
 
@@ -115,11 +123,15 @@ Interface> has a potential for some modification to make it more flexible.
 
 =head2 Public Interface
 
+The public interface only supports creation of the object and returning the
+value of the object.
+
 =head3 $class->new( $value )
 
 The new method is a constructor taking a single value. If the value is deemed
-valid by the C<_is_valid> internal method, an object is returned. Otherwise an
-exception is thrown.
+valid by the C<_why_invalid> internal method (which defaults to checking the
+internal C<_is_valid> method if not overridden), an object is returned.
+Otherwise an exception is thrown.
 
 =head3 $obj->value()
 
@@ -127,6 +139,9 @@ Return a copy of the value of the C<MooX::Value>-derived object. This method
 should not return modifiable internal state.
 
 =head2 Subclassing Interface
+
+The following methods may be overridden by any subclass to provide actual
+validation and reporting of errors.
 
 =head3 $self->_is_valid()
 
@@ -175,6 +190,9 @@ means. It should never return.
 
 =head2 Internal Interface
 
+These methods are documented for completeness, but are called internally and
+do not require any modification.
+
 =head3 BUILDARGS
 
 Internal function that makes the simple constructor compatible with the C<Moo>
@@ -196,7 +214,7 @@ The supplied parameter is not valid for the Value class.
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
-MooX::Value requires no configuration files or environment variables.
+C<MooX::Value> requires no configuration files or environment variables.
 
 =head1 DEPENDENCIES
 
