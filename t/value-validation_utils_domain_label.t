@@ -22,22 +22,24 @@ my @valid_labels = (
 );
 
 my @invalid_labels = (
-    [ undef,     'undefined' ],
-    [ '',        'empty string' ],
-    [ '-',       'label is just hyphen' ],
-    [ '-aa',     'label starts with a hyphen' ],
-    [ 'aa-',     'label ends with a hyphen' ],
+    [ undef,     'undefined', qr/No domain/ ],
+    [ '',        'empty string', qr/Label is not .* length/ ],
+    [ '-',       'label is just hyphen', qr/Label is not the correct form/ ],
+    [ '-aa',     'label starts with a hyphen', qr/Label is not the correct form/ ],
+    [ 'aa-',     'label ends with a hyphen', qr/Label is not the correct form/ ],
     [ 'abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ-0123456789',
-        'label > 63 octets' ],
+        'label > 63 octets',  qr/Label is not .* length/ ],
 );
 
-plan tests => (@valid_labels+@invalid_labels);
+plan tests => 2*(@valid_labels+@invalid_labels);
 
 foreach my $t (@valid_labels)
 {
     ok( MooX::Value::ValidationUtils::is_valid_domain_label( $t->[0] ),
         "is_valid: $t->[1]"
     );
+    my ($why, $long, $data) = MooX::Value::ValidationUtils::why_invalid_domain_label( $t->[0] );
+    ok( !defined $why, "$t->[1]: invalidation reason" );
 }
 
 foreach my $t (@invalid_labels)
@@ -45,4 +47,6 @@ foreach my $t (@invalid_labels)
     ok( !MooX::Value::ValidationUtils::is_valid_domain_label( $t->[0] ),
         "!is_valid: $t->[1]"
     );
+    my ($why, $long, $data) = MooX::Value::ValidationUtils::why_invalid_domain_label( $t->[0] );
+    like( $why, $t->[2], "$t->[1]: invalid for the right reason" );
 }

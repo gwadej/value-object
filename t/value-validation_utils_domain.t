@@ -43,29 +43,31 @@ my @valid_domains = (
 );
 
 my @invalid_domains = (
-    [ undef,     'undefined' ],
-    [ '',        'empty string' ],
-    [ '.',       'no labels, just dot' ],
-    [ '.com',    'empty first label' ],
-    [ 'a..com',  'empty middle label' ],
-    [ '-',       'label is just hyphen' ],
-    [ '-aa',     'label starts with a hyphen' ],
-    [ 'aa-',     'label ends with a hyphen' ],
+    [ undef,     'undefined', qr/No domain/ ],
+    [ '',        'empty string', qr/must be between/ ],
+    [ '.',       'no labels, just dot', qr/At least one/ ],
+    [ '.com',    'empty first label', qr/Label is not .* length/ ],
+    [ 'a..com',  'empty middle label', qr/Label is not .* length/ ],
+    [ '-',       'label is just hyphen', qr/Label is not the correct form/ ],
+    [ '-aa',     'label starts with a hyphen', qr/Label is not the correct form/ ],
+    [ 'aa-',     'label ends with a hyphen', qr/Label is not the correct form/ ],
     [ 'abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ-0123456789',
-        'label > 63 octets' ],
+        'label > 63 octets', qr/Label is not .* length/ ],
     [  'abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.'
       .'abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ-0123456789',
-        'label (other than first) > 63 octets' ],
-    [ 'ab'.('.a' x 127), 'domain name greater than 255 octets' ],
+        'label (other than first) > 63 octets', qr/Label is not .* length/ ],
+    [ 'ab'.('.a' x 127), 'domain name greater than 255 octets', qr/must be between/ ],
 );
 
-plan tests => (@valid_domains+@invalid_domains);
+plan tests => 2*(@valid_domains+@invalid_domains);
 
 foreach my $t (@valid_domains)
 {
     ok( MooX::Value::ValidationUtils::is_valid_domain_name( $t->[0] ),
         "is_valid: $t->[1]"
     );
+    my ($why, $long, $data) = MooX::Value::ValidationUtils::why_invalid_domain_name( $t->[0] );
+    ok( !defined $why, "$t->[1]: invalidation reason" );
 }
 
 foreach my $t (@invalid_domains)
@@ -73,4 +75,6 @@ foreach my $t (@invalid_domains)
     ok( !MooX::Value::ValidationUtils::is_valid_domain_name( $t->[0] ),
         "!is_valid: $t->[1]"
     );
+    my ($why, $long, $data) = MooX::Value::ValidationUtils::why_invalid_domain_name( $t->[0] );
+    like( $why, $t->[2], "$t->[1]: invalid for the right reason" );
 }
