@@ -3,7 +3,7 @@ package MooX::Value::ValidationUtils;
 use warnings;
 use strict;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 # RFC 1123 and 2181
 sub why_invalid_domain_name
@@ -89,7 +89,7 @@ MooX::Value::ValidationUtils - Utility functions for validation of value objects
 
 =head1 VERSION
 
-This document describes MooX::Value::ValidationUtils version 0.01
+This document describes MooX::Value::ValidationUtils version 0.02
 
 =head1 SYNOPSIS
 

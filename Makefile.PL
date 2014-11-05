@@ -11,21 +11,24 @@ WriteMakefile(
     PL_FILES            => {},
 #   EXE_FILES           => [ 'bin/prog' ],
     PREREQ_PM => {
-        'Test::More' => 0,
-        'version'    => 0,
+        'Test::More'       => 0,
+        'Test::Exception'  => 0,
+        'Moo'              => 0,
+        'namespace::clean' => 0,
     },
-    MIN_PERL_VERSION    => 5.010,
+    MIN_PERL_VERSION    => 5.008,
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'MooX-Value-*' },
-#    META_MERGE          => {
-#        'meta-spec' => { version => 2 },
-#       resources => {
-#           repository => {
-#               type => 'git',
-#               url  => 'https://github.com/gwadej/MooX-Value.git',
-#               web  => 'https://github.com/gwadej/MooX-Value',
-#       },
-#    },
+    META_MERGE          => {
+       'meta-spec' => { version => 2 },
+       resources => {
+           repository => {
+               type => 'git',
+               url  => 'https://github.com/gwadej/MooX-Value.git',
+               web  => 'https://github.com/gwadej/MooX-Value',
+            },
+       },
+    },
     test               => {
         TESTS => 't/*.t xt/*.t',
     },
