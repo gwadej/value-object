@@ -3,6 +3,8 @@ lib/MooX/Value.pm
 lib/MooX/Value/Domain.pm
 lib/MooX/Value/DomainLabel.pm
 lib/MooX/Value/EmailAddress.pm
+lib/MooX/Value/EmailAddressCommon.pm
+lib/MooX/Value/Identifier.pm
 lib/MooX/Value/ValidationUtils.pm
 Makefile.PL
 MANIFEST			This list of files
@@ -11,11 +13,15 @@ t/00.load.t
 t/value-domain.t
 t/value-domain_create_subdomain.t
 t/value-domain_label.t
+t/value-common_email_address.t
 t/value-email_address.t
+t/value-identifier.t
 t/value-validation_utils_domain.t
 t/value-validation_utils_domain_label.t
 t/value-validation_utils_emaillocalpart.t
+t/value-validation_utils_commonemaillocalpart.t
 t/value_basic.t
+t/value_untaint.t
 xt/critic.t
 xt/hasversion.t
 xt/pod.t
