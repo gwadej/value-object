@@ -7,7 +7,7 @@ use namespace::clean;
 
 use MooX::Value::ValidationUtils;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 extends 'MooX::Value';
 
@@ -44,7 +44,7 @@ MooX::Value::Domain - Value object class representing Internet domain names
 
 =head1 VERSION
 
-This document describes MooX::Value::Domain version 0.02
+This document describes MooX::Value::Domain version 0.03
 
 
 =head1 SYNOPSIS

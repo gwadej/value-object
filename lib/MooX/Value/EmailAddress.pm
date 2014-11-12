@@ -8,7 +8,7 @@ use namespace::clean;
 use MooX::Value::ValidationUtils;
 use MooX::Value::Domain;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 extends 'MooX::Value';
 
@@ -70,7 +70,7 @@ MooX::Value::EmailAddress - A value object representing a valid email address.
 
 =head1 VERSION
 
-This document describes MooX::Value::EmailAddress version 0.02
+This document describes MooX::Value::EmailAddress version 0.03
 
 =head1 SYNOPSIS
 

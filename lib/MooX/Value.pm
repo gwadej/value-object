@@ -21,7 +21,7 @@ sub BUILD
     my ($self) = @_;
     my ($why, $long, $data) = $self->_why_invalid( $self->{value} );
     $self->_throw_exception( $why, $long, $data ) if defined $why;
-    $self->{value} = $self->_untaint;
+    $self->{value} = $self->_untaint( $self->value );
     return $self;
 }
 
@@ -51,8 +51,7 @@ sub _throw_exception
 # Brute force untaint.
 sub _untaint
 {
-    my ($self) = @_;
-    my $value = $self->value;
+    my ($self, $value) = @_;
 
     # Can only untaint scalars
     return $value if ref $value;
@@ -160,7 +159,7 @@ should not return modifiable internal state.
 The following methods may be overridden by any subclass to provide actual
 validation and reporting of errors.
 
-=head3 $self->_is_valid()
+=head3 $self->_is_valid( $value )
 
 This method B<must> be overridden in any subclass (unless you override
 C<_why_invalid> instead).
@@ -168,7 +167,7 @@ C<_why_invalid> instead).
 It performs the validation on the supplied value and returns C<true> if the
 parameter is valid and C<false> otherwise.
 
-=head3 $self->_why_invalid()
+=head3 $self->_why_invalid( $value )
 
 By default, this method calls the C<_is_invalid> method and returns c<undef> on
 success or a list of three values on failure. The default error message is
@@ -205,7 +204,7 @@ to use something more advanced than a simple C<die>, you can override this
 method. The C<_throw_exception> method B<must> throw an exception by some
 means. It should never return.
 
-=head3 $self->_untaint()
+=head3 $self->_untaint( $value )
 
 This internal method returns an untainted copy of the value attribute. The
 base class version of this method performs a brute force untainting of any
@@ -213,9 +212,8 @@ scalar value. Since it is only called after the value is validated, this
 should be safe.
 
 A subclass can override this method to perform some other kind of untainting.
-The method can use the accessor to get the current (potentially tainted) value
-and return the untainted value. If the value is not a simple scalar, the
-subclass must override this method if untainting is desired.
+If the value is not a simple scalar, the subclass must override this method if
+untainting is desired.
 
 =head2 Internal Interface
 
