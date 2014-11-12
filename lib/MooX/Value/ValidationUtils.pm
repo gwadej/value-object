@@ -186,7 +186,7 @@ empty and the third item is C<undef>.
 
 Returns an empty list if C<$str> is a valid common email local part.
 
-=head2 is_valid_email_local_part( $str )
+=head2 is_valid_common_email_local_part( $str )
 
 Returns true if the supplied C<$str> is a valid email address as specified by
 common email address as defined by C<why_invalid_common_email_local_part>.
