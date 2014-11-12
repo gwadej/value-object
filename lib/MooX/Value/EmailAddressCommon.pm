@@ -1,4 +1,4 @@
-package MooX::Value::EmailAddress;
+package MooX::Value::EmailAddressCommon;
 
 use warnings;
 use strict;
@@ -21,7 +21,7 @@ sub _why_invalid
     my $pos = rindex( $value, '@' );
     {
         my $lp = substr( $value, 0, $pos );
-        my ($why, $long, $data) = MooX::Value::ValidationUtils::why_invalid_email_local_part( $lp );
+        my ($why, $long, $data) = MooX::Value::ValidationUtils::why_invalid_common_email_local_part( $lp );
         return ( __PACKAGE__ . ": $why", '', undef ) if defined $why;
     }
 
@@ -66,7 +66,7 @@ __END__
 
 =head1 NAME
 
-MooX::Value::EmailAddress - A value object representing a valid email address.
+MooX::Value::EmailAddressiCommon - A value object representing a valid email address.
 
 =head1 VERSION
 
@@ -74,28 +74,30 @@ This document describes MooX::Value::EmailAddress version 0.03
 
 =head1 SYNOPSIS
 
-    use MooX::Value::EmailAddress;
+    use MooX::Value::EmailAddressCommon;
 
-    my $email = MooX::Value::EmailAddress->new( 'webmaster@example.com' );
-    my $me    = MooX::Value::EmailAddress->new( 'gwadej@cpan.org' );
+    my $email = MooX::Value::EmailAddressCommon->new( 'webmaster@example.com' );
+    my $me    = MooX::Value::EmailAddressCommon->new( 'gwadej@cpan.org' );
 
 =head1 DESCRIPTION
 
-A C<MooX::Value::EmailAddress> value object represents a valid email address.
-That email address may not represent an address that can actually receive an
-email, but the form of the address is at least valid.
+A C<MooX::Value::EmailAddressCommon> value object represents a valid common
+email address.  That email address may not represent an address that can
+actually receive an email, but the form of the address is at least valid.
 
-The specification of the email address is given by RFC 5322 and supports both
-the quoted and dotted forms.
+The only difference between the common email address and the specification of
+the email address as given by RFC 5322 is that the common email address only
+supports the dotted form. In many practical applications, programmers do not
+seem to support the quoted email form. This Value class handles those cases.
 
 =head1 INTERFACE
 
-=head2 MooX::Value::EmailAddress->new( $emailstr )
+=head2 MooX::Value::EmailAddressCommon->new( $emailstr )
 
 Create a value object if the supplied C<$emailstr> validates according to RFC 5322.
 Otherwise throw an exception.
 
-=head2 MooX::Value::EmailAddress->new_canonical( $emailstr )
+=head2 MooX::Value::EmailAddressCommon->new_canonical( $emailstr )
 
 Create a value object if the supplied C<$emailstr> validates according to RFC 5322.
 Otherwise throw an exception.
@@ -119,7 +121,7 @@ Value object.
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
-C<MooX::Value::EmailAddress> requires no configuration files or environment variables.
+C<MooX::Value::EmailAddressCommon> requires no configuration files or environment variables.
 
 =head1 DEPENDENCIES
 

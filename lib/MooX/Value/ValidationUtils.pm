@@ -80,6 +80,31 @@ sub is_valid_email_local_part
     return !defined $why;
 }
 
+
+
+# RFC 5322
+sub why_invalid_common_email_local_part
+{
+    my ($poss_part) = @_;
+    return ( 'No email local part supplied', '', undef ) unless defined $poss_part;
+    return ( 'Local part is not in the length range 1 to 64', '', undef )
+        if !length $poss_part or length $poss_part > 64;
+    return ( 'Local part is not correct form.', '', undef )
+        unless $poss_part =~ m{\A[a-zA-Z0-9!#\$\%&'*+\-/=?^_`{|}~]+       # any 'atext' characters
+                                 (?:\.                                    # separated by dots
+                                      [a-zA-Z0-9!#\$\%&'*+\-/=?^_`{|}~]+  # any 'atext' characters
+                                 )*
+                               \z}x;
+    return;
+}
+
+sub is_valid_common_email_local_part
+{
+    my ($poss_part) = @_;
+    my ($why) = why_invalid_common_email_local_part( $poss_part );
+    return !defined $why;
+}
+
 1;
 __END__
 
@@ -147,6 +172,25 @@ Returns an empty list if C<$str> is a valid email local part.
 
 Returns true if the supplied C<$str> is a valid email address as specified by
 RFC 5322. Otherwise, return false.
+
+=head2 why_invalid_common_email_local_part( $str )
+
+Returns a three item list if the supplied C<$str> is not a valid email local
+part mostly as specified by RFC 5322. The difference between the common version
+of the email local part and the standard is that the common version does not
+support the quoted form. This does seem to match the common usage of email
+addresses that I've seem.
+
+The first item is a short message describing the problem. The second item is
+empty and the third item is C<undef>.
+
+Returns an empty list if C<$str> is a valid common email local part.
+
+=head2 is_valid_email_local_part( $str )
+
+Returns true if the supplied C<$str> is a valid email address as specified by
+common email address as defined by C<why_invalid_common_email_local_part>.
+Otherwise, return false.
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
