@@ -1,7 +1,7 @@
 Revision history for MooX-Value
 
 0.03  2014-11-12
-  - Add untainting to base class.
+  - Add untainting to base class (Thanks to Joshua Brandt for the suggestion).
   - Add MooX::Value::EmailAddressCommon to cover non-quoted email addresses.
   - Add MooX::Value::Identifier for the many places where C identifier rules
     apply.

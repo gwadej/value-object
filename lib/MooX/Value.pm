@@ -259,6 +259,10 @@ Please report any bugs or feature requests to
 C<bug-moox-value@rt.cpan.org>, or through the web interface at
 L<http://rt.cpan.org>.
 
+=head1 ACKNOWLEDGEMENTS
+
+Thanks to Joshua Brandt for suggesting the idea of untainting the value.
+
 =head1 AUTHOR
 
 G. Wade Johnson  C<< <gwadej@cpan.org> >>
