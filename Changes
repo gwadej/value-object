@@ -1,5 +1,8 @@
 Revision history for MooX-Value
 
+0.04  2014-??-??
+  - Add SEE ALSO section explaining how MooX::Value is different than other
+    Perl Value Object classes.
 0.03  2014-11-12
   - Add untainting to base class (Thanks to Joshua Brandt for the suggestion).
   - Add MooX::Value::EmailAddressCommon to cover non-quoted email addresses.
