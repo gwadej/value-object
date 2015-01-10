@@ -85,8 +85,9 @@ A C<MooX::Value::EmailAddress> value object represents a valid email address.
 That email address may not represent an address that can actually receive an
 email, but the form of the address is at least valid.
 
-The specification of the email address is given by RFC 5322 and supports both
-the quoted and dotted forms.
+The specification of the email address defined by the 'addr-spec' in RFC 5322 3.4.1. It supports both
+the quoted and dotted forms of the address. It does not support the inclusion of the display name,
+such as C<< G. Wade Johnson <gwadej@cpan.org> >>.
 
 =head1 INTERFACE
 
