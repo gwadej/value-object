@@ -124,7 +124,13 @@ C<MooX::Value::EmailAddress> requires no configuration files or environment vari
 
 =head1 DEPENDENCIES
 
-None.
+=over
+
+=item * L<Moo>
+
+=item * L<namespace::clean>
+
+=back
 
 =head1 INCOMPATIBILITIES
 
