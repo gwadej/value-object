@@ -5,7 +5,7 @@ use strict;
 use Moo;
 use namespace::clean;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 extends 'MooX::Value';
 
@@ -29,7 +29,7 @@ MooX::Value::Identifier - Value object class representing a legal C identifier
 
 =head1 VERSION
 
-This document describes MooX::Value::Identifier version 0.03
+This document describes MooX::Value::Identifier version 0.04
 
 =head1 SYNOPSIS
 

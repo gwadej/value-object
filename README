@@ -1,4 +1,4 @@
-MooX-Value version 0.01
+MooX-Value version 0.04
 
 This class serves as a base class for classes implementing the "Value Object"
 pattern. The core principles of a Value Object class are:

@@ -6,7 +6,7 @@ use strict;
 use Moo;
 use namespace::clean;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 has value => ( is => 'ro' );
 
@@ -72,7 +72,7 @@ MooX::Value - Base class for minimal Value Object classes
 
 =head1 VERSION
 
-This document describes MooX::Value version 0.03
+This document describes MooX::Value version 0.04
 
 =head1 SYNOPSIS
 

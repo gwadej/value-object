@@ -8,7 +8,7 @@ use namespace::clean;
 use MooX::Value::ValidationUtils;
 use MooX::Value::Domain;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 extends 'MooX::Value';
 
@@ -70,7 +70,7 @@ MooX::Value::EmailAddressiCommon - A value object representing a valid email add
 
 =head1 VERSION
 
-This document describes MooX::Value::EmailAddress version 0.03
+This document describes MooX::Value::EmailAddress version 0.04
 
 =head1 SYNOPSIS
 
@@ -125,7 +125,7 @@ C<MooX::Value::EmailAddressCommon> requires no configuration files or environmen
 
 =head1 DEPENDENCIES
 
-None.
+L<Moo>, L<namespace::clean>
 
 =head1 INCOMPATIBILITIES
 

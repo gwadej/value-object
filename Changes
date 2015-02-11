@@ -1,8 +1,12 @@
 Revision history for MooX-Value
 
-0.04  2014-??-??
+0.04  2015-02-11
   - Add SEE ALSO section explaining how MooX::Value is different than other
     Perl Value Object classes.
+  - Clarify the parsing of EmailAddresses to explain that just the addr-spec
+    part of RFC 5322 is parsed. (Thanks to Mark Stosberg for the fix.)
+  - Correct dependencies documentation on some value classes. (Thanks to
+     Mark Stosberg for pointing it out.)
 0.03  2014-11-12
   - Add untainting to base class (Thanks to Joshua Brandt for the suggestion).
   - Add MooX::Value::EmailAddressCommon to cover non-quoted email addresses.

@@ -7,7 +7,7 @@ use namespace::clean;
 
 use MooX::Value::ValidationUtils;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 extends 'MooX::Value';
 
@@ -35,7 +35,7 @@ MooX::Value::DomainLabel - Value object representing 1 label of an Internet doma
 
 =head1 VERSION
 
-This document describes MooX::Value::DomainLabel version 0.03
+This document describes MooX::Value::DomainLabel version 0.04
 
 =head1 SYNOPSIS
 
@@ -81,7 +81,7 @@ C<MooX::Value::DomainLabel> requires no configuration files or environment varia
 
 =head1 DEPENDENCIES
 
-None.
+L<Moo>, L<namespace::clean>
 
 =head1 INCOMPATIBILITIES
 
