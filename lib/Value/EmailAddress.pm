@@ -8,7 +8,7 @@ use namespace::clean;
 use Value::Object::ValidationUtils;
 use Value::Domain;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 extends 'Value::Object';
 
@@ -70,7 +70,7 @@ Value::EmailAddress - A value object representing a valid email address.
 
 =head1 VERSION
 
-This document describes Value::EmailAddress version 0.04
+This document describes Value::EmailAddress version 0.05
 
 =head1 SYNOPSIS
 

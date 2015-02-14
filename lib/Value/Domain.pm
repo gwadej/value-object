@@ -7,7 +7,7 @@ use namespace::clean;
 
 use Value::Object::ValidationUtils;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 extends 'Value::Object';
 
@@ -44,7 +44,7 @@ Value::Domain - Value object class representing Internet domain names
 
 =head1 VERSION
 
-This document describes Value::Domain version 0.04
+This document describes Value::Domain version 0.05
 
 
 =head1 SYNOPSIS
