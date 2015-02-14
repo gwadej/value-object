@@ -16,12 +16,12 @@ else
     plan tests => 1;
 }
 
-use MooX::Value;
+use Value::Object;
 
 {
     package TestValue;
     use Moo;
-    extends 'MooX::Value';
+    extends 'Value::Object';
 
     sub _is_valid
     {

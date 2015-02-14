@@ -5,7 +5,7 @@ use Test::More;
 use strict;
 use warnings;
 
-use MooX::Value::ValidationUtils;
+use Value::Object::ValidationUtils;
 
 my @valid_domains = (
     [ 'a',  'single character label' ],
@@ -63,18 +63,18 @@ plan tests => 2*(@valid_domains+@invalid_domains);
 
 foreach my $t (@valid_domains)
 {
-    ok( MooX::Value::ValidationUtils::is_valid_domain_name( $t->[0] ),
+    ok( Value::Object::ValidationUtils::is_valid_domain_name( $t->[0] ),
         "is_valid: $t->[1]"
     );
-    my ($why, $long, $data) = MooX::Value::ValidationUtils::why_invalid_domain_name( $t->[0] );
+    my ($why, $long, $data) = Value::Object::ValidationUtils::why_invalid_domain_name( $t->[0] );
     ok( !defined $why, "$t->[1]: invalidation reason" );
 }
 
 foreach my $t (@invalid_domains)
 {
-    ok( !MooX::Value::ValidationUtils::is_valid_domain_name( $t->[0] ),
+    ok( !Value::Object::ValidationUtils::is_valid_domain_name( $t->[0] ),
         "!is_valid: $t->[1]"
     );
-    my ($why, $long, $data) = MooX::Value::ValidationUtils::why_invalid_domain_name( $t->[0] );
+    my ($why, $long, $data) = Value::Object::ValidationUtils::why_invalid_domain_name( $t->[0] );
     like( $why, $t->[2], "$t->[1]: invalid for the right reason" );
 }

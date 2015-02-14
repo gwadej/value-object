@@ -1,20 +1,20 @@
-package MooX::Value::Domain;
+package Value::Domain;
 
 use warnings;
 use strict;
 use Moo;
 use namespace::clean;
 
-use MooX::Value::ValidationUtils;
+use Value::Object::ValidationUtils;
 
 our $VERSION = '0.04';
 
-extends 'MooX::Value';
+extends 'Value::Object';
 
 sub _why_invalid
 {
     my ($self, $value) = @_;
-    my ($why, $long, $data) = MooX::Value::ValidationUtils::why_invalid_domain_name( $value );
+    my ($why, $long, $data) = Value::Object::ValidationUtils::why_invalid_domain_name( $value );
     return ( __PACKAGE__ . ": $why", $long, $data ) if defined $why;
     return;
 }
@@ -30,7 +30,7 @@ sub make_subdomain
 {
     my ($self, $label) = @_;
     die __PACKAGE__ . ': undefined label' unless defined $label;
-    die __PACKAGE__ .': Not a DomainLabel' unless eval { $label->isa( 'MooX::Value::DomainLabel' ); };
+    die __PACKAGE__ .': Not a DomainLabel' unless eval { $label->isa( 'Value::DomainLabel' ); };
     return __PACKAGE__->new( $label->value . '.' . $self->value );
 }
 
@@ -39,29 +39,29 @@ __END__
 
 =head1 NAME
 
-MooX::Value::Domain - Value object class representing Internet domain names
+Value::Domain - Value object class representing Internet domain names
 
 
 =head1 VERSION
 
-This document describes MooX::Value::Domain version 0.04
+This document describes Value::Domain version 0.04
 
 
 =head1 SYNOPSIS
 
-    use MooX::Value::Domain;
+    use Value::Domain;
 
-    my $mcpan = MooX::Value::Domain->new( 'metacpan.org' );
-    my $goog  = MooX::Value::Domain->new( 'google.com' );
+    my $mcpan = Value::Domain->new( 'metacpan.org' );
+    my $goog  = Value::Domain->new( 'google.com' );
 
-    my $domain = MooX::Value::Domain->new( $unsafe_domain_name );
+    my $domain = Value::Domain->new( $unsafe_domain_name );
     # We'll only get here if the $unsafe_domain_name was a legal domain name
 
     print "'", $domain->value, "' is a valid domain name.\n";
 
 =head1 DESCRIPTION
 
-A C<MooX::Value::Domain> value object represents an Internet domain name as
+A C<Value::Domain> value object represents an Internet domain name as
 defined in RFCs 1123 and 2181. A fully qualified domain name cannot be more than
 255 characters in length and must be made up of labels separated by the '.'
 character. Each label can be no more than 63 characters in length and is made
@@ -73,12 +73,12 @@ If these criteria are not met, an exception is thrown.
 
 =head1 INTERFACE
 
-=head2 MooX::Value::Domain->new( $domstr )
+=head2 Value::Domain->new( $domstr )
 
 Create a new domain name object if the supplied string is a valid domain name.
 Otherwise throw an exception.
 
-=head2 MooX::Value::Domain->new_canonical( $domstr )
+=head2 Value::Domain->new_canonical( $domstr )
 
 Create a new domain name object if the supplied string is a valid domain name.
 Otherwise throw an exception.
@@ -93,12 +93,12 @@ Returns a string that represents the domain name of the object.
 
 =head2 $dom->make_subdomain( $label )
 
-Create a new C<MooX::Value::Domain> object that is created when the supplied label
+Create a new C<Value::Domain> object that is created when the supplied label
 is used as a subdomain of the domain represented by C<$dom>.
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
-C<MooX::Value::Domain> requires no configuration files or environment variables.
+C<Value::Domain> requires no configuration files or environment variables.
 
 =head1 DEPENDENCIES
 

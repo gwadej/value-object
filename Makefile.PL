@@ -3,10 +3,10 @@ use warnings;
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-    NAME                => 'MooX::Value',
+    NAME                => 'Value::Object',
     AUTHOR              => 'G. Wade Johnson <gwadej@cpan.org>',
-    VERSION_FROM        => 'lib/MooX/Value.pm',
-    ABSTRACT_FROM       => 'lib/MooX/Value.pm',
+    VERSION_FROM        => 'lib/Value/Object.pm',
+    ABSTRACT_FROM       => 'lib/Value/Object.pm',
     LICENSE             => 'perl',
     PL_FILES            => {},
 #   EXE_FILES           => [ 'bin/prog' ],
@@ -18,7 +18,7 @@ WriteMakefile(
     },
     MIN_PERL_VERSION    => 5.008,
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
-    clean               => { FILES => 'MooX-Value-*' },
+    clean               => { FILES => 'Value-Object-*' },
     META_MERGE          => {
        'meta-spec' => { version => 2 },
        resources => {

@@ -1,4 +1,4 @@
-package MooX::Value;
+package Value::Object;
 
 use warnings;
 use strict;
@@ -68,20 +68,20 @@ __END__
 
 =head1 NAME
 
-MooX::Value - Base class for minimal Value Object classes
+Value::Object - Base class for minimal Value Object classes
 
 =head1 VERSION
 
-This document describes MooX::Value version 0.04
+This document describes Value::Object version 0.04
 
 =head1 SYNOPSIS
 
-    package MooX::Value::Identifier;
+    package Value::Object::Identifier;
 
     use Moo;
     use namespace::clean;
 
-    extends 'MooX::Value';
+    extends 'Value::Object';
 
     sub _is_valid
     {
@@ -105,7 +105,7 @@ pattern. The core principles of a Value Object class are:
 
 =back
 
-Every C<MooX::Value>-derived object has a minimum of a C<value> method that
+Every C<Value::Object>-derived object has a minimum of a C<value> method that
 returns its value.  There is no mutator methods that allow for changing the
 value of the object. If you need an object with a new value, create a new
 object. The concept is that one of these objects is more like the integer B<5>,
@@ -114,22 +114,22 @@ B<5>, but you can make a new integer that is the value of B<5> changed by some
 amount.
 
 The core of this particular Value Object implementation is the validation on
-creation. Every subclass of C<MooX::Value> must override either the
+creation. Every subclass of C<Value::Object> must override either the
 C<_is_valid> or the C<_why_invalid> method. The C<_is_valid> method determines
 the validity of the supplied value. If the supplied value is not valid,
 C<_is_valid> returns false and the constructor throws an exception. If you
 prefer to have control over the message of the exception, you can override
 C<_why_invalid> which returns C<undef> for a valid value and information about
-why the value is not valid otherwise. The result is that any C<MooX::Value>
+why the value is not valid otherwise. The result is that any C<Value::Object>
 object is guaranteed to be validated by its constructor.
 
 There is a temptation when designing a Value object to include extra
-functionality into the class. The C<MooX::Value> class instead aims for the
+functionality into the class. The C<Value::Object> class instead aims for the
 minimal function consistent with the requirements listed above. If a subclass
 needs more functionality it can be added to that subclass at the point of need.
 Valid extra functionality might be accessors for part of the value if it is
 made of smaller pieces. Any mutator methods would violate the fundamental
-design of the C<MooX::Value> base class and are, therefore, discouraged.
+design of the C<Value::Object> base class and are, therefore, discouraged.
 
 =head1 INTERFACE
 
@@ -151,7 +151,7 @@ Otherwise an exception is thrown.
 
 =head3 $obj->value()
 
-Return a copy of the value of the C<MooX::Value>-derived object. This method
+Return a copy of the value of the C<Value::Object>-derived object. This method
 should not return modifiable internal state.
 
 =head2 Subclassing Interface
@@ -241,7 +241,7 @@ The supplied parameter is not valid for the Value class.
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
-C<MooX::Value> requires no configuration files or environment variables.
+C<Value::Object> requires no configuration files or environment variables.
 
 =head1 DEPENDENCIES
 

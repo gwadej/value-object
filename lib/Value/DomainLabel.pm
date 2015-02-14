@@ -1,23 +1,29 @@
-package MooX::Value::Identifier;
+package Value::DomainLabel;
 
 use warnings;
 use strict;
 use Moo;
 use namespace::clean;
 
+use Value::Object::ValidationUtils;
+
 our $VERSION = '0.04';
 
-extends 'MooX::Value';
+extends 'Value::Object';
 
 sub _why_invalid
 {
     my ($self, $value) = @_;
-    return (__PACKAGE__ . ': No identifier supplied', '', undef) unless defined $value;
-    return (__PACKAGE__ . ': Empty identifier supplied', '', undef) unless length $value;
-    return (__PACKAGE__ . ': Invalid initial character', '', undef) unless $value =~ m/\A[a-zA-Z_]/;
-    return (__PACKAGE__ . ': Invalid character in identifier', '', undef)
-        unless $value =~ m/\A[a-zA-Z_][a-zA-Z0-9_]*\z/;
+    my ($why, $long, $data) = Value::Object::ValidationUtils::why_invalid_domain_label( $value );
+    return ( __PACKAGE__ . ": $why", $long, $data ) if defined $why;
     return;
+}
+
+sub new_canonical
+{
+    my ($class, $value) = @_;
+    $value =~ tr/A-Z/a-z/;
+    return $class->new( $value );
 }
 
 1;
@@ -25,48 +31,53 @@ __END__
 
 =head1 NAME
 
-MooX::Value::Identifier - Value object class representing a legal C identifier
+Value::DomainLabel - Value object representing 1 label of an Internet domain
 
 =head1 VERSION
 
-This document describes MooX::Value::Identifier version 0.04
+This document describes Value::DomainLabel version 0.04
 
 =head1 SYNOPSIS
 
-    use MooX::Value::Identifier;
+    use Value::DomainLabel;
 
-    my $ident = MooX::Value::Identifier->new( 'foo' );
-    my $userident = MooX::Value::Domain->new( $unsafe_identifier );
-    # We'll only get here if the $unsafe_identifier was a legal identifier
-
-    print "'", $userident->value, "' is a valid identifier.\n";
+    my $com_label  = Value::DomainLabel->new( 'com' );
+    my $goog_label = Value::DomainLabel->new( 'google' );
 
 =head1 DESCRIPTION
 
-A C<MooX::Value::Identifier> value object represents a legal C identifier. This
-definition is actually used in more than just C. An identifier is limited to
-the ASCII uppercase and lowercase letters, the ASCII digits, and the
-underscore.  The initial character of an identifier cannot be a digit. The C
-standard does not impose a length limit, so this class does not either. In
-actual use, there are a particular strings that are not allowed as identifiers
-(like C keywords). This class does not enforce that restriction.
+When working with Internet domains, it is sometimes useful to be able to
+validate one segment (or label) of the domain. The C<Value::DomainLabel>
+provides that validation. The domain label specification is provided by the
+RFCs 1123 and 2181. A label must be between 1 and 63 ASCII characters in
+length. Only certain characters are allowed in the domain name label.
 
-If these criteria are not met, an exception is thrown.
+Trying to create a label that does not meet these criteria results in a thrown
+exception.
 
 =head1 INTERFACE
 
-=head2 MooX::Value::Identifier->new( $str )
+=head2 Value::DomainLabel->new( $label )
 
-Create a new identifier object if the supplied string is a valid identifier.
-Otherwise throw an exception.
+Create a value object if the supplied C<$label> validates according to RFCs 1123 and
+2181. Otherwise throw an exception.
 
-=head2 $id->value()
+=head2 Value::DomainLabel->new_canonical( $label )
 
-Returns a string that represents the value of the object.
+Create a value object if the supplied C<$label> validates according to RFCs 1123 and
+2181. Otherwise throw an exception.
+
+Unlike the C<new> method, the ASCII characters of the supplied C<$label> are
+lowercased before the domain label is created. The canonical version of the
+domain label is always lowercase.
+
+=head2 $dl->value()
+
+Return a string matching the value of the Value object.
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
-C<MooX::Value::Identifier> requires no configuration files or environment variables.
+C<Value::DomainLabel> requires no configuration files or environment variables.
 
 =head1 DEPENDENCIES
 

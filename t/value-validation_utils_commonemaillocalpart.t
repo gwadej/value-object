@@ -5,7 +5,7 @@ use Test::More;
 use strict;
 use warnings;
 
-use MooX::Value::ValidationUtils;
+use Value::Object::ValidationUtils;
 
 my @chars = (qw(a z A Z 0 9 !), '#', qw($ % & ' * + - / = ? ^ _ ` { | } ~));
 my @valid_localpart = (
@@ -42,18 +42,18 @@ plan tests => 2*(@valid_localpart+@invalid_localpart);
 
 foreach my $t (@valid_localpart)
 {
-    ok( MooX::Value::ValidationUtils::is_valid_common_email_local_part( $t->[0] ),
+    ok( Value::Object::ValidationUtils::is_valid_common_email_local_part( $t->[0] ),
         "is_valid: $t->[1]: [$t->[0]]"
     );
-    my ($why, $long, $data) = MooX::Value::ValidationUtils::why_invalid_common_email_local_part( $t->[0] );
+    my ($why, $long, $data) = Value::Object::ValidationUtils::why_invalid_common_email_local_part( $t->[0] );
     ok( !defined $why, "$t->[1]: invalidation reason" );
 }
 
 foreach my $t (@invalid_localpart)
 {
-    ok( !MooX::Value::ValidationUtils::is_valid_common_email_local_part( $t->[0] ),
+    ok( !Value::Object::ValidationUtils::is_valid_common_email_local_part( $t->[0] ),
         "!is_valid: $t->[1]"
     );
-    my ($why, $long, $data) = MooX::Value::ValidationUtils::why_invalid_common_email_local_part( $t->[0] );
+    my ($why, $long, $data) = Value::Object::ValidationUtils::why_invalid_common_email_local_part( $t->[0] );
     like( $why, $t->[2], "$t->[1]: invalid for the right reason" );
 }

@@ -1,4 +1,4 @@
-package MooX::Value::ValidationUtils;
+package Value::Object::ValidationUtils;
 
 use warnings;
 use strict;
@@ -110,22 +110,22 @@ __END__
 
 =head1 NAME
 
-MooX::Value::ValidationUtils - Utility functions for validation of value objects
+Value::Object::ValidationUtils - Utility functions for validation of value objects
 
 =head1 VERSION
 
-This document describes MooX::Value::ValidationUtils version 0.04
+This document describes Value::Object::ValidationUtils version 0.04
 
 =head1 SYNOPSIS
 
-    use MooX::Value::ValidationUtils;
+    use Value::Object::ValidationUtils;
 
     print "Yes\n"
-        if MooX::Value::ValidationUtils::is_valid_domain_name( $foo );
+        if Value::Object::ValidationUtils::is_valid_domain_name( $foo );
 
 =head1 DESCRIPTION
 
-Some C<MooX::Value>-derived objects share code needed for validation. Rather
+Some C<Value::Object>-derived objects share code needed for validation. Rather
 than duplicating the knowledge of that information in multiple value objects,
 the knowledge and utilities are collected into this module.
 
@@ -194,7 +194,7 @@ Otherwise, return false.
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
-C<MooX::Value::ValidationUtils> requires no configuration files or environment variables.
+C<Value::Object::ValidationUtils> requires no configuration files or environment variables.
 
 =head1 DEPENDENCIES
 

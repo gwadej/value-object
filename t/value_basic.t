@@ -6,8 +6,8 @@ use Test::Exception;
 use strict;
 use warnings;
 
-use MooX::Value;
+use Value::Object;
 
-can_ok( 'MooX::Value', 'new', 'value' );
-throws_ok { MooX::Value->new() } qr/^MooX::Value/, "Creating the base MooX::Value not allowed";
+can_ok( 'Value::Object', 'new', 'value' );
+throws_ok { Value::Object->new() } qr/^Value::Object/, "Creating the base Value::Object not allowed";
 

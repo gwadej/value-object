@@ -1,16 +1,16 @@
-package MooX::Value::EmailAddress;
+package Value::EmailAddress;
 
 use warnings;
 use strict;
 use Moo;
 use namespace::clean;
 
-use MooX::Value::ValidationUtils;
-use MooX::Value::Domain;
+use Value::Object::ValidationUtils;
+use Value::Domain;
 
 our $VERSION = '0.04';
 
-extends 'MooX::Value';
+extends 'Value::Object';
 
 sub _why_invalid
 {
@@ -21,13 +21,13 @@ sub _why_invalid
     my $pos = rindex( $value, '@' );
     {
         my $lp = substr( $value, 0, $pos );
-        my ($why, $long, $data) = MooX::Value::ValidationUtils::why_invalid_email_local_part( $lp );
+        my ($why, $long, $data) = Value::Object::ValidationUtils::why_invalid_email_local_part( $lp );
         return ( __PACKAGE__ . ": $why", '', undef ) if defined $why;
     }
 
     {
         my $dom = substr( $value, $pos+1 );
-        my ($why, $long, $data) = MooX::Value::ValidationUtils::why_invalid_domain_name( $dom );
+        my ($why, $long, $data) = Value::Object::ValidationUtils::why_invalid_domain_name( $dom );
         return ( __PACKAGE__ . ": $why", '', $dom ) if defined $why;
     }
     return;
@@ -42,7 +42,7 @@ sub local_part
 sub domain
 {
     my ($self) = @_;
-    return MooX::Value::Domain->new( substr( $self->value, rindex( $self->value, '@' )+1 ) );
+    return Value::Domain->new( substr( $self->value, rindex( $self->value, '@' )+1 ) );
 }
 
 sub new_canonical
@@ -66,22 +66,22 @@ __END__
 
 =head1 NAME
 
-MooX::Value::EmailAddress - A value object representing a valid email address.
+Value::EmailAddress - A value object representing a valid email address.
 
 =head1 VERSION
 
-This document describes MooX::Value::EmailAddress version 0.04
+This document describes Value::EmailAddress version 0.04
 
 =head1 SYNOPSIS
 
-    use MooX::Value::EmailAddress;
+    use Value::EmailAddress;
 
-    my $email = MooX::Value::EmailAddress->new( 'webmaster@example.com' );
-    my $me    = MooX::Value::EmailAddress->new( 'gwadej@cpan.org' );
+    my $email = Value::EmailAddress->new( 'webmaster@example.com' );
+    my $me    = Value::EmailAddress->new( 'gwadej@cpan.org' );
 
 =head1 DESCRIPTION
 
-A C<MooX::Value::EmailAddress> value object represents a valid email address.
+A C<Value::EmailAddress> value object represents a valid email address.
 That email address may not represent an address that can actually receive an
 email, but the form of the address is at least valid.
 
@@ -91,12 +91,12 @@ such as C<< G. Wade Johnson <gwadej@cpan.org> >>.
 
 =head1 INTERFACE
 
-=head2 MooX::Value::EmailAddress->new( $emailstr )
+=head2 Value::EmailAddress->new( $emailstr )
 
 Create a value object if the supplied C<$emailstr> validates according to RFC 5322.
 Otherwise throw an exception.
 
-=head2 MooX::Value::EmailAddress->new_canonical( $emailstr )
+=head2 Value::EmailAddress->new_canonical( $emailstr )
 
 Create a value object if the supplied C<$emailstr> validates according to RFC 5322.
 Otherwise throw an exception.
@@ -115,12 +115,12 @@ Return a string matching the local part of the Value object.
 
 =head2 $email->domain()
 
-Return a C<MooX::Value::Domain> object representing the domain portion of the
+Return a C<Value::Domain> object representing the domain portion of the
 Value object.
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
-C<MooX::Value::EmailAddress> requires no configuration files or environment variables.
+C<Value::EmailAddress> requires no configuration files or environment variables.
 
 =head1 DEPENDENCIES
 
