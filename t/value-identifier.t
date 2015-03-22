@@ -6,7 +6,7 @@ use Test::Exception;
 use strict;
 use warnings;
 
-use Value::Identifier;
+use Value::Object::Identifier;
 
 my @valid_identifiers = (
     [ 'a',        'minimum single lowercase letter' ],
@@ -34,12 +34,12 @@ plan tests => (@valid_identifiers + @invalid_identifiers);
 
 foreach my $t (@valid_identifiers)
 {
-    lives_and { isa_ok( Value::Identifier->new( $t->[0] ), 'Value::Identifier' ) }
+    lives_and { isa_ok( Value::Object::Identifier->new( $t->[0] ), 'Value::Object::Identifier' ) }
         "is_valid: $t->[1]";
 }
 
 foreach my $t (@invalid_identifiers)
 {
-    throws_ok { Value::Identifier->new( $t->[0] ) } $t->[2], "!is_valid: $t->[1]";
+    throws_ok { Value::Object::Identifier->new( $t->[0] ) } $t->[2], "!is_valid: $t->[1]";
 }
 

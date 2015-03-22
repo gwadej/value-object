@@ -6,7 +6,7 @@ use strict;
 use Moo;
 use namespace::clean;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 has value => ( is => 'ro' );
 
@@ -72,7 +72,7 @@ Value::Object - Base class for minimal Value Object classes
 
 =head1 VERSION
 
-This document describes Value::Object version 0.05
+This document describes Value::Object version 0.06
 
 =head1 SYNOPSIS
 

@@ -1,4 +1,4 @@
-package Value::EmailAddress;
+package Value::Object::EmailAddressCommon;
 
 use warnings;
 use strict;
@@ -6,9 +6,9 @@ use Moo;
 use namespace::clean;
 
 use Value::Object::ValidationUtils;
-use Value::Domain;
+use Value::Object::Domain;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 extends 'Value::Object';
 
@@ -21,7 +21,7 @@ sub _why_invalid
     my $pos = rindex( $value, '@' );
     {
         my $lp = substr( $value, 0, $pos );
-        my ($why, $long, $data) = Value::Object::ValidationUtils::why_invalid_email_local_part( $lp );
+        my ($why, $long, $data) = Value::Object::ValidationUtils::why_invalid_common_email_local_part( $lp );
         return ( __PACKAGE__ . ": $why", '', undef ) if defined $why;
     }
 
@@ -42,7 +42,7 @@ sub local_part
 sub domain
 {
     my ($self) = @_;
-    return Value::Domain->new( substr( $self->value, rindex( $self->value, '@' )+1 ) );
+    return Value::Object::Domain->new( substr( $self->value, rindex( $self->value, '@' )+1 ) );
 }
 
 sub new_canonical
@@ -66,37 +66,38 @@ __END__
 
 =head1 NAME
 
-Value::EmailAddress - A value object representing a valid email address.
+Value::Object::EmailAddressCommon - A value object representing a valid email address.
 
 =head1 VERSION
 
-This document describes Value::EmailAddress version 0.05
+This document describes Value::Object::EmailAddressCommon version 0.06
 
 =head1 SYNOPSIS
 
-    use Value::EmailAddress;
+    use Value::Object::EmailAddressCommon;
 
-    my $email = Value::EmailAddress->new( 'webmaster@example.com' );
-    my $me    = Value::EmailAddress->new( 'gwadej@cpan.org' );
+    my $email = Value::Object::EmailAddressCommon->new( 'webmaster@example.com' );
+    my $me    = Value::Object::EmailAddressCommon->new( 'gwadej@cpan.org' );
 
 =head1 DESCRIPTION
 
-A C<Value::EmailAddress> value object represents a valid email address.
-That email address may not represent an address that can actually receive an
-email, but the form of the address is at least valid.
+A C<Value::Object::EmailAddressCommon> value object represents a valid common
+email address.  That email address may not represent an address that can
+actually receive an email, but the form of the address is at least valid.
 
-The specification of the email address defined by the 'addr-spec' in RFC 5322 3.4.1. It supports both
-the quoted and dotted forms of the address. It does not support the inclusion of the display name,
-such as C<< G. Wade Johnson <gwadej@cpan.org> >>.
+The only difference between the common email address and the specification of
+the email address as given by RFC 5322 is that the common email address only
+supports the dotted form. In many practical applications, programmers do not
+seem to support the quoted email form. This Value class handles those cases.
 
 =head1 INTERFACE
 
-=head2 Value::EmailAddress->new( $emailstr )
+=head2 Value::Object::EmailAddressCommon->new( $emailstr )
 
 Create a value object if the supplied C<$emailstr> validates according to RFC 5322.
 Otherwise throw an exception.
 
-=head2 Value::EmailAddress->new_canonical( $emailstr )
+=head2 Value::Object::EmailAddressCommon->new_canonical( $emailstr )
 
 Create a value object if the supplied C<$emailstr> validates according to RFC 5322.
 Otherwise throw an exception.
@@ -115,12 +116,12 @@ Return a string matching the local part of the Value object.
 
 =head2 $email->domain()
 
-Return a C<Value::Domain> object representing the domain portion of the
+Return a C<Value::Object::Domain> object representing the domain portion of the
 Value object.
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
-C<Value::EmailAddress> requires no configuration files or environment variables.
+C<Value::Object::EmailAddressCommon> requires no configuration files or environment variables.
 
 =head1 DEPENDENCIES
 

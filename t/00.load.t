@@ -1,9 +1,14 @@
 use strict;
 use warnings;
-use Test::More tests => 1;
+use Test::More tests => 6;
 
 BEGIN {
     use_ok( 'Value::Object' );
+    use_ok( 'Value::Object::DomainLabel' );
+    use_ok( 'Value::Object::Domain' );
+    use_ok( 'Value::Object::EmailAddressCommon' );
+    use_ok( 'Value::Object::EmailAddress' );
+    use_ok( 'Value::Object::Identifier' );
 }
 
-diag( "Testing Value::Object $Value::Object::VERSION" );
+note( "Testing Value::Object $Value::Object::VERSION" );

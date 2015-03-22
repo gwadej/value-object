@@ -1,21 +1,5 @@
 Revision history for Value-Object
 
-0.05  2015-??-??
+0.06  2015-??-??
   - Change namespace from MooX::Value to Value::Object.
-0.04  2015-02-11
-  - Add SEE ALSO section explaining how MooX::Value is different than other
-    Perl Value Object classes.
-  - Clarify the parsing of EmailAddresses to explain that just the addr-spec
-    part of RFC 5322 is parsed. (Thanks to Mark Stosberg for the fix.)
-  - Correct dependencies documentation on some value classes. (Thanks to
-     Mark Stosberg for pointing it out.)
-0.03  2014-11-12
-  - Add untainting to base class (Thanks to Joshua Brandt for the suggestion).
-  - Add MooX::Value::EmailAddressCommon to cover non-quoted email addresses.
-  - Add MooX::Value::Identifier for the many places where C identifier rules
-    apply.
-0.02  2014-11-04
-  - Correct missing dependencies.
-0.01  2014-11-01
-  - Initial release.
-
+  - Renamed distribution from MooX::Value to Value::Object

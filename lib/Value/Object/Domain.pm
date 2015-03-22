@@ -1,4 +1,4 @@
-package Value::DomainLabel;
+package Value::Object::Domain;
 
 use warnings;
 use strict;
@@ -7,14 +7,14 @@ use namespace::clean;
 
 use Value::Object::ValidationUtils;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 extends 'Value::Object';
 
 sub _why_invalid
 {
     my ($self, $value) = @_;
-    my ($why, $long, $data) = Value::Object::ValidationUtils::why_invalid_domain_label( $value );
+    my ($why, $long, $data) = Value::Object::ValidationUtils::why_invalid_domain_name( $value );
     return ( __PACKAGE__ . ": $why", $long, $data ) if defined $why;
     return;
 }
@@ -26,58 +26,79 @@ sub new_canonical
     return $class->new( $value );
 }
 
+sub make_subdomain
+{
+    my ($self, $label) = @_;
+    die __PACKAGE__ . ': undefined label' unless defined $label;
+    die __PACKAGE__ .': Not a DomainLabel' unless eval { $label->isa( 'Value::Object::DomainLabel' ); };
+    return __PACKAGE__->new( $label->value . '.' . $self->value );
+}
+
 1;
 __END__
 
 =head1 NAME
 
-Value::DomainLabel - Value object representing 1 label of an Internet domain
+Value::Object::Domain - Value object class representing Internet domain names
+
 
 =head1 VERSION
 
-This document describes Value::DomainLabel version 0.05
+This document describes Value::Object::Domain version 0.06
+
 
 =head1 SYNOPSIS
 
-    use Value::DomainLabel;
+    use Value::Object::Domain;
 
-    my $com_label  = Value::DomainLabel->new( 'com' );
-    my $goog_label = Value::DomainLabel->new( 'google' );
+    my $mcpan = Value::Object::Domain->new( 'metacpan.org' );
+    my $goog  = Value::Object::Domain->new( 'google.com' );
+
+    my $domain = Value::Object::Domain->new( $unsafe_domain_name );
+    # We'll only get here if the $unsafe_domain_name was a legal domain name
+
+    print "'", $domain->value, "' is a valid domain name.\n";
 
 =head1 DESCRIPTION
 
-When working with Internet domains, it is sometimes useful to be able to
-validate one segment (or label) of the domain. The C<Value::DomainLabel>
-provides that validation. The domain label specification is provided by the
-RFCs 1123 and 2181. A label must be between 1 and 63 ASCII characters in
-length. Only certain characters are allowed in the domain name label.
+A C<Value::Object::Domain> value object represents an Internet domain name as
+defined in RFCs 1123 and 2181. A fully qualified domain name cannot be more than
+255 characters in length and must be made up of labels separated by the '.'
+character. Each label can be no more than 63 characters in length and is made
+up of characters from a limited character set.
 
-Trying to create a label that does not meet these criteria results in a thrown
-exception.
+The domain name specification allows for a trailing dot.
+
+If these criteria are not met, an exception is thrown.
 
 =head1 INTERFACE
 
-=head2 Value::DomainLabel->new( $label )
+=head2 Value::Object::Domain->new( $domstr )
 
-Create a value object if the supplied C<$label> validates according to RFCs 1123 and
-2181. Otherwise throw an exception.
+Create a new domain name object if the supplied string is a valid domain name.
+Otherwise throw an exception.
 
-=head2 Value::DomainLabel->new_canonical( $label )
+=head2 Value::Object::Domain->new_canonical( $domstr )
 
-Create a value object if the supplied C<$label> validates according to RFCs 1123 and
-2181. Otherwise throw an exception.
+Create a new domain name object if the supplied string is a valid domain name.
+Otherwise throw an exception.
 
-Unlike the C<new> method, the ASCII characters of the supplied C<$label> are
-lowercased before the domain label is created. The canonical version of the
-domain label is always lowercase.
+Unlike the C<new> method, the ASCII characters of the supplied C<$domstr> are
+lowercased before the domain is created. The canonical version of the domain
+name is always lowercase.
 
-=head2 $dl->value()
+=head2 $dom->value()
 
-Return a string matching the value of the Value object.
+Returns a string that represents the domain name of the object.
+
+=head2 $dom->make_subdomain( $label )
+
+Create a new C<Value::Object::Domain> object that is created when the supplied label
+is used as a subdomain of the domain represented by C<$dom>.
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
-C<Value::DomainLabel> requires no configuration files or environment variables.
+C<Value::Object::Domain> requires no configuration files or environment variables.
 
 =head1 DEPENDENCIES
 
