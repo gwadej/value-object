@@ -5,7 +5,7 @@ use strict;
 use Moo;
 use namespace::clean;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 extends 'MooX::Value';
 
@@ -29,7 +29,7 @@ MooX::Value::Identifier - Value object class representing a legal C identifier
 
 =head1 VERSION
 
-This document describes MooX::Value::Identifier version 0.04
+This document describes MooX::Value::Identifier version 0.05
 
 =head1 SYNOPSIS
 
@@ -42,6 +42,9 @@ This document describes MooX::Value::Identifier version 0.04
     print "'", $userident->value, "' is a valid identifier.\n";
 
 =head1 DESCRIPTION
+
+This module is deprecated. It has been replaced by the L<Value::Object>
+distribution.
 
 A C<MooX::Value::Identifier> value object represents a legal C identifier. This
 definition is actually used in more than just C. An identifier is limited to

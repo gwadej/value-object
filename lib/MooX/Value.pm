@@ -6,7 +6,7 @@ use strict;
 use Moo;
 use namespace::clean;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 has value => ( is => 'ro' );
 
@@ -68,11 +68,11 @@ __END__
 
 =head1 NAME
 
-MooX::Value - Base class for minimal Value Object classes
+MooX::Value - Base class for minimal Value Object classes (DEPRECATED)
 
 =head1 VERSION
 
-This document describes MooX::Value version 0.04
+This document describes MooX::Value version 0.05
 
 =head1 SYNOPSIS
 
@@ -91,6 +91,11 @@ This document describes MooX::Value version 0.04
 
 
 =head1 DESCRIPTION
+
+This module is deprecated. It has been replaced by the L<Value::Object> module.
+
+This distribution was originally conceived as very Moo-specific. The actual module
+ended up using Moo, but not really being tightly bound to the internals of Moo.
 
 This class serves as a base class for classes implementing the I<Value Object>
 pattern. The core principles of a Value Object class are:
@@ -295,6 +300,8 @@ This is the core funcitonality allowing autoboxing of Perl primitives, not Value
 objects.
 
 =back
+
+This module is now replaced by L<Value::Object>.
 
 =head1 ACKNOWLEDGEMENTS
 

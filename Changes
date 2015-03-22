@@ -1,5 +1,7 @@
 Revision history for MooX-Value
 
+0.05  ????-??-??
+  - Deprecate the distribution after releasing Value::Object
 0.04  2015-02-11
   - Add SEE ALSO section explaining how MooX::Value is different than other
     Perl Value Object classes.

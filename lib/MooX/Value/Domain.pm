@@ -7,7 +7,7 @@ use namespace::clean;
 
 use MooX::Value::ValidationUtils;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 extends 'MooX::Value';
 
@@ -44,7 +44,7 @@ MooX::Value::Domain - Value object class representing Internet domain names
 
 =head1 VERSION
 
-This document describes MooX::Value::Domain version 0.04
+This document describes MooX::Value::Domain version 0.05
 
 
 =head1 SYNOPSIS
@@ -60,6 +60,9 @@ This document describes MooX::Value::Domain version 0.04
     print "'", $domain->value, "' is a valid domain name.\n";
 
 =head1 DESCRIPTION
+
+This module is deprecated. It has been replaced by the L<Value::Object>
+distribution.
 
 A C<MooX::Value::Domain> value object represents an Internet domain name as
 defined in RFCs 1123 and 2181. A fully qualified domain name cannot be more than

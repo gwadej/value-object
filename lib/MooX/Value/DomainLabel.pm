@@ -7,7 +7,7 @@ use namespace::clean;
 
 use MooX::Value::ValidationUtils;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 extends 'MooX::Value';
 
@@ -31,11 +31,11 @@ __END__
 
 =head1 NAME
 
-MooX::Value::DomainLabel - Value object representing 1 label of an Internet domain
+MooX::Value::DomainLabel - Value object representing 1 label of an Internet domain (DEPRECATED)
 
 =head1 VERSION
 
-This document describes MooX::Value::DomainLabel version 0.04
+This document describes MooX::Value::DomainLabel version 0.05
 
 =head1 SYNOPSIS
 
@@ -45,6 +45,9 @@ This document describes MooX::Value::DomainLabel version 0.04
     my $goog_label = MooX::Value::DomainLabel->new( 'google' );
 
 =head1 DESCRIPTION
+
+This module is deprecated. It has been replaced by the L<Value::Object>
+distribution.
 
 When working with Internet domains, it is sometimes useful to be able to
 validate one segment (or label) of the domain. The C<MooX::Value::DomainLabel>

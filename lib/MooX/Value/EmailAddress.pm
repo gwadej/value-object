@@ -8,7 +8,7 @@ use namespace::clean;
 use MooX::Value::ValidationUtils;
 use MooX::Value::Domain;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 extends 'MooX::Value';
 
@@ -70,7 +70,7 @@ MooX::Value::EmailAddress - A value object representing a valid email address.
 
 =head1 VERSION
 
-This document describes MooX::Value::EmailAddress version 0.04
+This document describes MooX::Value::EmailAddress version 0.05
 
 =head1 SYNOPSIS
 
@@ -80,6 +80,9 @@ This document describes MooX::Value::EmailAddress version 0.04
     my $me    = MooX::Value::EmailAddress->new( 'gwadej@cpan.org' );
 
 =head1 DESCRIPTION
+
+This module is deprecated. It has been replaced by the L<Value::Object>
+distribution.
 
 A C<MooX::Value::EmailAddress> value object represents a valid email address.
 That email address may not represent an address that can actually receive an

@@ -3,7 +3,7 @@ package MooX::Value::ValidationUtils;
 use warnings;
 use strict;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 # RFC 1123 and 2181
 sub why_invalid_domain_name
@@ -114,7 +114,7 @@ MooX::Value::ValidationUtils - Utility functions for validation of value objects
 
 =head1 VERSION
 
-This document describes MooX::Value::ValidationUtils version 0.04
+This document describes MooX::Value::ValidationUtils version 0.05
 
 =head1 SYNOPSIS
 
@@ -124,6 +124,9 @@ This document describes MooX::Value::ValidationUtils version 0.04
         if MooX::Value::ValidationUtils::is_valid_domain_name( $foo );
 
 =head1 DESCRIPTION
+
+This module is deprecated. It has been replaced by the L<Value::Object>
+distribution.
 
 Some C<MooX::Value>-derived objects share code needed for validation. Rather
 than duplicating the knowledge of that information in multiple value objects,
