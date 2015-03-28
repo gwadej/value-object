@@ -5,7 +5,7 @@ use strict;
 use Moo;
 use namespace::clean;
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 extends 'Value::Object';
 
@@ -29,7 +29,7 @@ Value::Object::Identifier - Value object class representing a legal C identifier
 
 =head1 VERSION
 
-This document describes Value::Object::Identifier version 0.06
+This document describes Value::Object::Identifier version 0.07
 
 =head1 SYNOPSIS
 

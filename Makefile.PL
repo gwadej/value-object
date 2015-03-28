@@ -24,8 +24,8 @@ WriteMakefile(
        resources => {
            repository => {
                type => 'git',
-               url  => 'https://github.com/gwadej/MooX-Value.git',
-               web  => 'https://github.com/gwadej/MooX-Value',
+               url  => 'https://github.com/gwadej/value-object.git',
+               web  => 'https://github.com/gwadej/value-object',
             },
        },
     },

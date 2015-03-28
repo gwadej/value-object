@@ -7,7 +7,7 @@ use namespace::clean;
 
 use Value::Object::ValidationUtils;
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 extends 'Value::Object';
 
@@ -35,7 +35,7 @@ Value::Object::DomainLabel - Value object representing 1 label of an Internet do
 
 =head1 VERSION
 
-This document describes Value::Object::DomainLabel version 0.06
+This document describes Value::Object::DomainLabel version 0.07
 
 =head1 SYNOPSIS
 
