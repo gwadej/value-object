@@ -1,5 +1,5 @@
 Revision history for Value-Object
 
-0.06  2015-??-??
+0.06  2015-03-28
   - Change namespace from MooX::Value to Value::Object.
   - Renamed distribution from MooX::Value to Value::Object
