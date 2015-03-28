@@ -1,10 +1,10 @@
 Changes
 lib/Value/Object.pm
-lib/Value/Domain.pm
-lib/Value/DomainLabel.pm
-lib/Value/EmailAddress.pm
-lib/Value/EmailAddressCommon.pm
-lib/Value/Identifier.pm
+lib/Value/Object/Domain.pm
+lib/Value/Object/DomainLabel.pm
+lib/Value/Object/EmailAddress.pm
+lib/Value/Object/EmailAddressCommon.pm
+lib/Value/Object/Identifier.pm
 lib/Value/Object/ValidationUtils.pm
 Makefile.PL
 MANIFEST
