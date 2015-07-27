@@ -2,33 +2,31 @@ package Value::Object::EmailAddressCommon;
 
 use warnings;
 use strict;
-use Moo;
-use namespace::clean;
 
 use Value::Object::ValidationUtils;
 use Value::Object::Domain;
 
-our $VERSION = '0.07';
+our $VERSION = '0.10';
 
-extends 'Value::Object';
+use parent 'Value::Object';
 
 sub _why_invalid
 {
     my ($self, $value) = @_;
-    return ( __PACKAGE__ . ': undefined value', '', undef ) unless defined $value;
-    return ( __PACKAGE__ . ': missing domain', '', undef ) unless $value =~ tr/@//;
+    return ( ref($self) . ': undefined value', '', undef ) unless defined $value;
+    return ( ref($self) . ': missing domain', '', undef ) unless $value =~ tr/@//;
 
     my $pos = rindex( $value, '@' );
     {
         my $lp = substr( $value, 0, $pos );
         my ($why, $long, $data) = Value::Object::ValidationUtils::why_invalid_common_email_local_part( $lp );
-        return ( __PACKAGE__ . ": $why", '', undef ) if defined $why;
+        return ( ref($self) . ": $why", '', undef ) if defined $why;
     }
 
     {
         my $dom = substr( $value, $pos+1 );
         my ($why, $long, $data) = Value::Object::ValidationUtils::why_invalid_domain_name( $dom );
-        return ( __PACKAGE__ . ": $why", '', $dom ) if defined $why;
+        return ( ref($self) . ": $why", '', $dom ) if defined $why;
     }
     return;
 }
@@ -70,7 +68,7 @@ Value::Object::EmailAddressCommon - A value object representing a valid email ad
 
 =head1 VERSION
 
-This document describes Value::Object::EmailAddressCommon version 0.07
+This document describes Value::Object::EmailAddressCommon version 0.10
 
 =head1 SYNOPSIS
 
@@ -125,7 +123,7 @@ C<Value::Object::EmailAddressCommon> requires no configuration files or environm
 
 =head1 DEPENDENCIES
 
-L<Moo>, L<namespace::clean>
+L<parent>
 
 =head1 INCOMPATIBILITIES
 

@@ -76,10 +76,7 @@ This document describes Value::Object version 0.10
 
     package Value::Object::Identifier;
 
-    use Moo;
-    use namespace::clean;
-
-    extends 'Value::Object';
+    use parent 'Value::Object';
 
     sub _is_valid
     {
@@ -218,14 +215,11 @@ untainting is desired.
 These methods are documented for completeness, but are called internally and
 do not require any modification.
 
-=head3 BUILDARGS
+=head3 new( $value )
 
-Internal function that makes the simple constructor compatible with the C<Moo>
-constructor interface.
-
-=head3 BUILD
-
-Internal function that validates the constructor input.
+Constructs a Value Object. Expects a single argument that is validated
+according to the rules for the type of Value Object. On success, a value object
+is returned.  Throws an exception on failure to validated.
 
 =head1 DIAGNOSTICS
 
@@ -243,7 +237,7 @@ C<Value::Object> requires no configuration files or environment variables.
 
 =head1 DEPENDENCIES
 
-L<Moo>, L<namespace::clean>
+L<parent>
 
 =head1 INCOMPATIBILITIES
 

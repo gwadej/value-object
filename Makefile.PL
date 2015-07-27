@@ -13,8 +13,7 @@ WriteMakefile(
     PREREQ_PM => {
         'Test::More'       => 0,
         'Test::Exception'  => 0,
-        'Moo'              => 0,
-        'namespace::clean' => 0,
+        'parent'           => 0,
     },
     MIN_PERL_VERSION    => 5.008,
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },

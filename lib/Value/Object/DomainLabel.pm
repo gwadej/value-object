@@ -2,14 +2,12 @@ package Value::Object::DomainLabel;
 
 use warnings;
 use strict;
-use Moo;
-use namespace::clean;
 
 use Value::Object::ValidationUtils;
 
-our $VERSION = '0.07';
+our $VERSION = '0.10';
 
-extends 'Value::Object';
+use parent 'Value::Object';
 
 sub _why_invalid
 {
@@ -35,7 +33,7 @@ Value::Object::DomainLabel - Value object representing 1 label of an Internet do
 
 =head1 VERSION
 
-This document describes Value::Object::DomainLabel version 0.07
+This document describes Value::Object::DomainLabel version 0.10
 
 =head1 SYNOPSIS
 
@@ -81,7 +79,7 @@ C<Value::Object::DomainLabel> requires no configuration files or environment var
 
 =head1 DEPENDENCIES
 
-L<Moo>, L<namespace::clean>
+L<parent>
 
 =head1 INCOMPATIBILITIES
 

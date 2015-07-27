@@ -2,20 +2,18 @@ package Value::Object::Identifier;
 
 use warnings;
 use strict;
-use Moo;
-use namespace::clean;
 
-our $VERSION = '0.07';
+our $VERSION = '0.10';
 
-extends 'Value::Object';
+use parent 'Value::Object';
 
 sub _why_invalid
 {
     my ($self, $value) = @_;
-    return (__PACKAGE__ . ': No identifier supplied', '', undef) unless defined $value;
-    return (__PACKAGE__ . ': Empty identifier supplied', '', undef) unless length $value;
-    return (__PACKAGE__ . ': Invalid initial character', '', undef) unless $value =~ m/\A[a-zA-Z_]/;
-    return (__PACKAGE__ . ': Invalid character in identifier', '', undef)
+    return (ref($self) . ': No identifier supplied', '', undef) unless defined $value;
+    return (ref($self) . ': Empty identifier supplied', '', undef) unless length $value;
+    return (ref($self) . ': Invalid initial character', '', undef) unless $value =~ m/\A[a-zA-Z_]/;
+    return (ref($self) . ': Invalid character in identifier', '', undef)
         unless $value =~ m/\A[a-zA-Z_][a-zA-Z0-9_]*\z/;
     return;
 }
@@ -29,7 +27,7 @@ Value::Object::Identifier - Value object class representing a legal C identifier
 
 =head1 VERSION
 
-This document describes Value::Object::Identifier version 0.07
+This document describes Value::Object::Identifier version 0.10
 
 =head1 SYNOPSIS
 
@@ -70,7 +68,7 @@ C<Value::Object::Identifier> requires no configuration files or environment vari
 
 =head1 DEPENDENCIES
 
-L<Moo>, L<namespace::clean>
+L<parent>
 
 =head1 INCOMPATIBILITIES
 
