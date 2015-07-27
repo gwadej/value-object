@@ -8,14 +8,19 @@ WriteMakefile(
     VERSION_FROM        => 'lib/Value/Object.pm',
     ABSTRACT_FROM       => 'lib/Value/Object.pm',
     LICENSE             => 'perl',
+    MIN_PERL_VERSION    => 5.008,
     PL_FILES            => {},
 #   EXE_FILES           => [ 'bin/prog' ],
-    PREREQ_PM => {
+    CONFIGURE_REQUIRES  => {
+        'ExtUtils::MakeMaker' => 0,
+    },
+    BUILD_REQUIRES => {
         'Test::More'       => 0,
         'Test::Exception'  => 0,
+    },
+    PREREQ_PM => {
         'parent'           => 0,
     },
-    MIN_PERL_VERSION    => 5.008,
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'Value-Object-*' },
     META_MERGE          => {
