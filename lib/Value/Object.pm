@@ -3,25 +3,23 @@ package Value::Object;
 use warnings;
 use strict;
 
-use Moo;
-use namespace::clean;
+our $VERSION = '0.10';
 
-our $VERSION = '0.07';
-
-has value => ( is => 'ro' );
-
-sub BUILDARGS
-{
-    my ($class, $value) = @_;
-    return { 'value' => $value };
-}
-
-sub BUILD
+sub value
 {
     my ($self) = @_;
-    my ($why, $long, $data) = $self->_why_invalid( $self->{value} );
+    return ${$self};
+}
+
+sub new
+{
+    my ($class, $value) = @_;
+    my $self = bless \$value, $class;
+
+    my ($why, $long, $data) = $self->_why_invalid( $self->value );
     $self->_throw_exception( $why, $long, $data ) if defined $why;
-    $self->{value} = $self->_untaint( $self->value );
+    ${$self} = $self->_untaint( $self->value );
+
     return $self;
 }
 
@@ -72,7 +70,7 @@ Value::Object - Base class for minimal Value Object classes
 
 =head1 VERSION
 
-This document describes Value::Object version 0.07
+This document describes Value::Object version 0.10
 
 =head1 SYNOPSIS
 
