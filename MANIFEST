@@ -4,6 +4,7 @@ lib/Value/Object/Domain.pm
 lib/Value/Object/DomainLabel.pm
 lib/Value/Object/EmailAddress.pm
 lib/Value/Object/EmailAddressCommon.pm
+lib/Value/Object/HexString.pm
 lib/Value/Object/Identifier.pm
 lib/Value/Object/ValidationUtils.pm
 Makefile.PL
@@ -16,6 +17,7 @@ t/value-domain.t
 t/value-domain_create_subdomain.t
 t/value-domain_label.t
 t/value-email_address.t
+t/value-hexstring.t
 t/value-identifier.t
 t/value-validation_utils_commonemaillocalpart.t
 t/value-validation_utils_domain.t
