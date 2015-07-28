@@ -3,6 +3,8 @@ Revision history for Value-Object
 0.10  2015-07-27
   - Remove dependency on Moo.
   - Change internal representation of value object to be more space efficient.
+  - Correct RT bug report email message. It was still based on the old module
+    name
 0.07  2015-03-28
   - Update README and Makefile.PL for new name and repo.
 0.06  2015-03-28

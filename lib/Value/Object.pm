@@ -248,7 +248,7 @@ None reported.
 No bugs have been reported.
 
 Please report any bugs or feature requests to
-C<bug-moox-value@rt.cpan.org>, or through the web interface at
+C<bug-value-object@rt.cpan.org>, or through the web interface at
 L<http://rt.cpan.org>.
 
 =head1 SEE ALSO
