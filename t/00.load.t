@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 6;
+use Test::More tests => 10;
 
 BEGIN {
     use_ok( 'Value::Object' );
@@ -9,6 +9,10 @@ BEGIN {
     use_ok( 'Value::Object::EmailAddressCommon' );
     use_ok( 'Value::Object::EmailAddress' );
     use_ok( 'Value::Object::Identifier' );
+    use_ok( 'Value::Object::HexString' );
+    use_ok( 'Value::Object::W3CDate' );
+    use_ok( 'Value::Object::W3CDateTime' );
+    use_ok( 'Value::Object::W3CDateTimeZ' );
 }
 
 note( "Testing Value::Object $Value::Object::VERSION" );

@@ -7,6 +7,9 @@ lib/Value/Object/EmailAddressCommon.pm
 lib/Value/Object/HexString.pm
 lib/Value/Object/Identifier.pm
 lib/Value/Object/ValidationUtils.pm
+lib/Value/Object/W3CDate.pm
+lib/Value/Object/W3CDateTime.pm
+lib/Value/Object/W3CDateTimeZ.pm
 Makefile.PL
 MANIFEST
 MANIFEST.SKIP
@@ -23,6 +26,9 @@ t/value-validation_utils_commonemaillocalpart.t
 t/value-validation_utils_domain.t
 t/value-validation_utils_domain_label.t
 t/value-validation_utils_emaillocalpart.t
+t/value-w3cdate.t
+t/value-w3cdatetime.t
+t/value-w3cdatetimez.t
 t/value_basic.t
 t/value_untaint.t
 xt/critic.t

@@ -105,6 +105,54 @@ sub is_valid_common_email_local_part
     return !defined $why;
 }
 
+sub why_invalid_iso_8601_date
+{
+    my ($value) = @_;
+    return ( 'date is undefined', '', undef ) unless defined $value;
+    return ( 'date is empty', '', undef ) unless length $value;
+    return ( 'date format is incorrect', '', undef )
+        unless $value =~ /\A([0-9]{4})-([0-9]{2})-([0-9]{2})\z/;
+    my ($year, $month, $day) = ($1, $2, $3);
+    return ( 'value month is out of range', '', $month )
+        unless 1 <= $month && $month <= 12;
+    return ( 'value day is out of range', '', $day )
+        unless 1 <= $day && $day <= 31;
+    return ( 'value day is out of range for month', '', $day )
+        if $day == 31 && grep { $month == $_ } (2, 4, 6, 9, 11);
+    return ( 'value day is out of range for February', '', $day )
+        if $day == 30 || ($day == 29 && !is_leap_year( $year ));
+    return;
+}
+
+sub is_leap_year
+{
+    my ($year) = @_;
+    return ($year % 4 == 0 && ($year % 100 != 0 || $year % 400 == 0));
+}
+
+sub why_invalid_iso_8601_time
+{
+    my ($value) = @_;
+    return ( 'time is undefined', '', undef ) unless defined $value;
+    return ( 'time is empty', '', undef ) unless length $value;
+    return ( 'time format is incorrect', '', undef )
+        unless $value =~ /\A([0-9]{2}):([0-9]{2})(?::([0-9]{2}(?:\.[0-9]+)?))(Z|[-+][0-9]{2}:[0-9]{2})\z/;
+    my ($hour, $minute, $second, $tzi) = ($1, $2, $3, $4);
+    return ( 'value hour is out of range', '', $hour )
+        unless $hour <= 24;
+    return ( 'value minute is out of range', '', $minute )
+        unless $minute <= 59;
+    return ( 'value second is out of range', '', $second )
+        if $second <= 60;  # Account for leap seconds
+    return if $tzi eq 'Z';
+    my ($tzh, $tzm) = $tzi =~ /(\d+):(\d+)/;
+    return ( 'value timezone hour offset is out of range', '', $tzh )
+        unless $tzh <= 24
+    return ( 'value timezone minute offset is out of range', '', $tzm )
+        unless $tzm <= 59;
+    return;
+}
+
 1;
 __END__
 
