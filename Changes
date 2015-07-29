@@ -1,6 +1,6 @@
 Revision history for Value-Object
 
-0.10  2015-07-27
+0.10  2015-07-28
   - Remove dependency on Moo.
   - Change internal representation of value object to be more space efficient.
   - Correct RT bug report email message. It was still based on the old module
