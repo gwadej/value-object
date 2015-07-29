@@ -20,7 +20,7 @@ sub _why_invalid
     {
         my $lp = substr( $value, 0, $pos );
         my ($why, $long, $data) = Value::Object::ValidationUtils::why_invalid_email_local_part( $lp );
-        return ( ref($self) . ": $why", '', undef ) if defined $why;
+        return ( ref($self) . ": $why", '', $lp ) if defined $why;
     }
 
     {
