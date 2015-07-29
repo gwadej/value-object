@@ -12,7 +12,7 @@ sub _why_invalid
     my ( $self, $value ) = @_;
 
     return ( ref($self) . ': value time zone indicator is incorrect', '', undef )
-        unless $value =~ /Z$/;
+        unless defined($value) and $value =~ /Z$/;
 
     return $self->SUPER::_why_invalid( $value );
 }

@@ -3,6 +3,8 @@ package Value::Object::W3CDateTime;
 use strict;
 use warnings;
 
+use Value::Object::ValidationUtils;
+
 use parent 'Value::Object';
 
 our $VERSION = '0.10';

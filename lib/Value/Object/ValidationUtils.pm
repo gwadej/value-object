@@ -139,15 +139,15 @@ sub why_invalid_iso_8601_time
         unless $value =~ /\A([0-9]{2}):([0-9]{2})(?::([0-9]{2}(?:\.[0-9]+)?))(Z|[-+][0-9]{2}:[0-9]{2})\z/;
     my ($hour, $minute, $second, $tzi) = ($1, $2, $3, $4);
     return ( 'value hour is out of range', '', $hour )
-        unless $hour <= 24;
+        unless $hour <= 23 || ($hour == 24 && $minute == 0);
     return ( 'value minute is out of range', '', $minute )
         unless $minute <= 59;
     return ( 'value second is out of range', '', $second )
-        if $second <= 60;  # Account for leap seconds
+        unless $second <= 60;  # Account for leap seconds
     return if $tzi eq 'Z';
     my ($tzh, $tzm) = $tzi =~ /(\d+):(\d+)/;
     return ( 'value timezone hour offset is out of range', '', $tzh )
-        unless $tzh <= 24
+        unless $tzh <= 23 || ($tzh == 24 && $tzm == 0);
     return ( 'value timezone minute offset is out of range', '', $tzm )
         unless $tzm <= 59;
     return;

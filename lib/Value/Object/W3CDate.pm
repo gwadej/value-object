@@ -2,6 +2,7 @@ package Value::Object::W3CDate;
 
 use strict;
 use warnings;
+
 use Value::Object::ValidationUtils;
 
 use parent 'Value::Object';
