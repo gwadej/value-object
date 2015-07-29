@@ -20,8 +20,7 @@ use Value::Object;
 
 {
     package TestValue;
-    use Moo;
-    extends 'Value::Object';
+    use parent 'Value::Object';
 
     sub _is_valid
     {

@@ -3,25 +3,23 @@ package Value::Object;
 use warnings;
 use strict;
 
-use Moo;
-use namespace::clean;
+our $VERSION = '0.10';
 
-our $VERSION = '0.07';
-
-has value => ( is => 'ro' );
-
-sub BUILDARGS
-{
-    my ($class, $value) = @_;
-    return { 'value' => $value };
-}
-
-sub BUILD
+sub value
 {
     my ($self) = @_;
-    my ($why, $long, $data) = $self->_why_invalid( $self->{value} );
+    return ${$self};
+}
+
+sub new
+{
+    my ($class, $value) = @_;
+    my $self = bless \$value, $class;
+
+    my ($why, $long, $data) = $self->_why_invalid( $self->value );
     $self->_throw_exception( $why, $long, $data ) if defined $why;
-    $self->{value} = $self->_untaint( $self->value );
+    ${$self} = $self->_untaint( $self->value );
+
     return $self;
 }
 
@@ -72,16 +70,13 @@ Value::Object - Base class for minimal Value Object classes
 
 =head1 VERSION
 
-This document describes Value::Object version 0.07
+This document describes Value::Object version 0.10
 
 =head1 SYNOPSIS
 
     package Value::Object::Identifier;
 
-    use Moo;
-    use namespace::clean;
-
-    extends 'Value::Object';
+    use parent 'Value::Object';
 
     sub _is_valid
     {
@@ -220,14 +215,11 @@ untainting is desired.
 These methods are documented for completeness, but are called internally and
 do not require any modification.
 
-=head3 BUILDARGS
+=head3 new( $value )
 
-Internal function that makes the simple constructor compatible with the C<Moo>
-constructor interface.
-
-=head3 BUILD
-
-Internal function that validates the constructor input.
+Constructs a Value Object. Expects a single argument that is validated
+according to the rules for the type of Value Object. On success, a value object
+is returned.  Throws an exception on failure to validated.
 
 =head1 DIAGNOSTICS
 
@@ -245,7 +237,7 @@ C<Value::Object> requires no configuration files or environment variables.
 
 =head1 DEPENDENCIES
 
-L<Moo>, L<namespace::clean>
+L<parent>
 
 =head1 INCOMPATIBILITIES
 
@@ -256,7 +248,7 @@ None reported.
 No bugs have been reported.
 
 Please report any bugs or feature requests to
-C<bug-moox-value@rt.cpan.org>, or through the web interface at
+C<bug-value-object@rt.cpan.org>, or through the web interface at
 L<http://rt.cpan.org>.
 
 =head1 SEE ALSO

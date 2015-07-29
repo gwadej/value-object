@@ -1,20 +1,19 @@
-package Value::Object::Identifier;
+package Value::Object::W3CDate;
 
-use warnings;
 use strict;
+use warnings;
 
-our $VERSION = '0.10';
+use Value::Object::ValidationUtils;
 
 use parent 'Value::Object';
 
+our $VERSION = '0.10';
+
 sub _why_invalid
 {
-    my ($self, $value) = @_;
-    return (ref($self) . ': No identifier supplied', '', undef) unless defined $value;
-    return (ref($self) . ': Empty identifier supplied', '', undef) unless length $value;
-    return (ref($self) . ': Invalid initial character', '', undef) unless $value =~ m/\A[a-zA-Z_]/;
-    return (ref($self) . ': Invalid character in identifier', '', undef)
-        unless $value =~ m/\A[a-zA-Z_][a-zA-Z0-9_]*\z/;
+    my ( $self, $value ) = @_;
+    my ($why, $long, $data) = Value::Object::ValidationUtils::why_invalid_iso_8601_date( $value );
+    return ( ref($self) . ": $why", $long, $data ) if defined $why;
     return;
 }
 
@@ -23,48 +22,33 @@ __END__
 
 =head1 NAME
 
-Value::Object::Identifier - Value object class representing a legal C identifier
+Value::Object::W3CDate - Validate W3C dates as specified by ISO 8601
+
 
 =head1 VERSION
 
-This document describes Value::Object::Identifier version 0.10
+This document describes Value::Object::W3CDate version 0.10
 
 =head1 SYNOPSIS
 
-    use Value::Object::Identifier;
+    use Value::Object::W3CDate;
 
-    my $ident = Value::Object::Identifier->new( 'foo' );
-    my $userident = Value::Object::Domain->new( $unsafe_identifier );
-    # We'll only get here if the $unsafe_identifier was a legal identifier
-
-    print "'", $userident->value, "' is a valid identifier.\n";
+    my $date= Vaue::Object::W3CDate->new( '2015-07-28' );
 
 =head1 DESCRIPTION
 
-A C<Value::Object::Identifier> value object represents a legal C identifier. This
-definition is actually used in more than just C. An identifier is limited to
-the ASCII uppercase and lowercase letters, the ASCII digits, and the
-underscore.  The initial character of an identifier cannot be a digit. The C
-standard does not impose a length limit, so this class does not either. In
-actual use, there are a particular strings that are not allowed as identifiers
-(like C keywords). This class does not enforce that restriction.
 
-If these criteria are not met, an exception is thrown.
 
 =head1 INTERFACE
 
-=head2 Value::Object::Identifier->new( $str )
+=head2 Value::Object::W3CDate->new( $datestr )
 
-Create a new identifier object if the supplied string is a valid identifier.
-Otherwise throw an exception.
-
-=head2 $id->value()
-
-Returns a string that represents the value of the object.
+Create a C<Value::Object::W3CDate> value object representing a date in W3C format specified
+from ISO 8601.
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
-C<Value::Object::Identifier> requires no configuration files or environment variables.
+C<Value::Object::W3CDate> requires no configuration files or environment variables.
 
 =head1 DEPENDENCIES
 
@@ -88,7 +72,7 @@ G. Wade Johnson  C<< gwadej@cpan.org >>
 
 =head1 LICENCE AND COPYRIGHT
 
-Copyright (c) 2014, G. Wade Johnson C<< gwadej@cpan.org >>. All rights reserved.
+Copyright (c) 2015, G. Wade Johnson C<< gwadej@cpan.org >>. All rights reserved.
 
 This module is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself. See L<perlartistic>.

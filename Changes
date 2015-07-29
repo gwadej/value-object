@@ -1,5 +1,15 @@
 Revision history for Value-Object
 
+0.10  2015-07-28
+  - Remove dependency on Moo.
+  - Change internal representation of value object to be more space efficient.
+  - Correct RT bug report email message. It was still based on the old module
+    name
+  - New value object types:
+     - HexString
+     - W3CDate - The date portion of an ISO 8601 date
+     - W3CDateTime - Full date/time in W3C version of ISO 8601
+     - W3CDateTimeZ - Full date/time of ISO 8601 in UTC only
 0.07  2015-03-28
   - Update README and Makefile.PL for new name and repo.
 0.06  2015-03-28

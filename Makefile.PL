@@ -8,6 +8,7 @@ WriteMakefile(
     VERSION_FROM        => 'lib/Value/Object.pm',
     ABSTRACT_FROM       => 'lib/Value/Object.pm',
     LICENSE             => 'perl',
+    MIN_PERL_VERSION    => 5.008,
     PL_FILES            => {},
 #   EXE_FILES           => [ 'bin/prog' ],
     CONFIGURE_REQUIRES  => {
@@ -18,10 +19,8 @@ WriteMakefile(
         'Test::Exception'  => 0,
     },
     PREREQ_PM => {
-        'Moo'              => 0,
-        'namespace::clean' => 0,
+        'parent'           => 0,
     },
-    MIN_PERL_VERSION    => 5.008,
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'Value-Object-*' },
     META_MERGE          => {

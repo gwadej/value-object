@@ -1,21 +1,26 @@
-package Value::Object::Identifier;
+package Value::Object::HexString;
 
-use warnings;
 use strict;
-
-our $VERSION = '0.10';
+use warnings;
 
 use parent 'Value::Object';
 
+our $VERSION = '0.10';
+
 sub _why_invalid
 {
-    my ($self, $value) = @_;
-    return (ref($self) . ': No identifier supplied', '', undef) unless defined $value;
-    return (ref($self) . ': Empty identifier supplied', '', undef) unless length $value;
-    return (ref($self) . ': Invalid initial character', '', undef) unless $value =~ m/\A[a-zA-Z_]/;
-    return (ref($self) . ': Invalid character in identifier', '', undef)
-        unless $value =~ m/\A[a-zA-Z_][a-zA-Z0-9_]*\z/;
+    my ( $self, $value ) = @_;
+    return ( ref($self) . ': value is undefined', '', undef ) unless defined $value;
+    return ( ref($self) . ': value is empty', '', undef ) unless length $value;
+    return ( ref($self) . ': value format is incorrect', '', $value ) unless $value =~ m/\A[0-9a-fA-F]+\z/;
     return;
+}
+
+sub new_canonical
+{
+    my ($class, $value) = @_;
+    $value =~ tr/A-F/a-f/;
+    return $class->new( $value );
 }
 
 1;
@@ -23,48 +28,49 @@ __END__
 
 =head1 NAME
 
-Value::Object::Identifier - Value object class representing a legal C identifier
+Value::Object::HexString - Value representing a valid Hexadecimal string.
 
 =head1 VERSION
 
-This document describes Value::Object::Identifier version 0.10
+This document describes Value::Object::HexString version 0.10
+
 
 =head1 SYNOPSIS
 
-    use Value::Object::Identifier;
+    use Value::Object::HexString;
 
-    my $ident = Value::Object::Identifier->new( 'foo' );
-    my $userident = Value::Object::Domain->new( $unsafe_identifier );
-    # We'll only get here if the $unsafe_identifier was a legal identifier
-
-    print "'", $userident->value, "' is a valid identifier.\n";
+    my $val  = Value::Object::HexString->new( 'deadbeef' );
+    my $hash = Value::Object::HexString->new( '0123456789ABCDEF' );
 
 =head1 DESCRIPTION
 
-A C<Value::Object::Identifier> value object represents a legal C identifier. This
-definition is actually used in more than just C. An identifier is limited to
-the ASCII uppercase and lowercase letters, the ASCII digits, and the
-underscore.  The initial character of an identifier cannot be a digit. The C
-standard does not impose a length limit, so this class does not either. In
-actual use, there are a particular strings that are not allowed as identifiers
-(like C keywords). This class does not enforce that restriction.
-
-If these criteria are not met, an exception is thrown.
+A C<Value::Object::HexString> value object represents a string representing a
+hexadecimal number. This string may have upper- or lower-case versions of the
+A-F characters and still be valid. Sincte this must represent an actual hex number,
+it is expected to be an even length.
 
 =head1 INTERFACE
 
-=head2 Value::Object::Identifier->new( $str )
+=head2 Value::Object::HexString->new( $hexstr )
 
-Create a new identifier object if the supplied string is a valid identifier.
+Create a new hex string object is the supplied string is a valid hex string.
 Otherwise throw an exception.
 
-=head2 $id->value()
+=head2 Value::Object::HexString->new_canonical( $hexstr )
 
-Returns a string that represents the value of the object.
+Create a new hex string object is the supplied string is a valid hex string.
+Otherwise throw an exception.
+
+Unlike the C<new> method, the C<$hexstr> will be forced to all lower-case
+before the object is created.
+
+=head2 $hex->value()
+
+Returns the string representing the hex value.
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
-C<Value::Object::Identifier> requires no configuration files or environment variables.
+C<Value::Object::HexString> requires no configuration files or environment variables.
 
 =head1 DEPENDENCIES
 
@@ -88,7 +94,7 @@ G. Wade Johnson  C<< gwadej@cpan.org >>
 
 =head1 LICENCE AND COPYRIGHT
 
-Copyright (c) 2014, G. Wade Johnson C<< gwadej@cpan.org >>. All rights reserved.
+Copyright (c) 2015, G. Wade Johnson C<< gwadej@cpan.org >>. All rights reserved.
 
 This module is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself. See L<perlartistic>.

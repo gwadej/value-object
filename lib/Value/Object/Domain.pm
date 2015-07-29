@@ -2,20 +2,18 @@ package Value::Object::Domain;
 
 use warnings;
 use strict;
-use Moo;
-use namespace::clean;
 
 use Value::Object::ValidationUtils;
 
-our $VERSION = '0.07';
+our $VERSION = '0.10';
 
-extends 'Value::Object';
+use parent 'Value::Object';
 
 sub _why_invalid
 {
     my ($self, $value) = @_;
     my ($why, $long, $data) = Value::Object::ValidationUtils::why_invalid_domain_name( $value );
-    return ( __PACKAGE__ . ": $why", $long, $data ) if defined $why;
+    return ( ref($self) . ": $why", $long, $data ) if defined $why;
     return;
 }
 
@@ -29,8 +27,8 @@ sub new_canonical
 sub make_subdomain
 {
     my ($self, $label) = @_;
-    die __PACKAGE__ . ': undefined label' unless defined $label;
-    die __PACKAGE__ .': Not a DomainLabel' unless eval { $label->isa( 'Value::Object::DomainLabel' ); };
+    die ref($self) . ': undefined label' unless defined $label;
+    die ref($self) .': Not a DomainLabel' unless eval { $label->isa( 'Value::Object::DomainLabel' ); };
     return __PACKAGE__->new( $label->value . '.' . $self->value );
 }
 
@@ -44,7 +42,7 @@ Value::Object::Domain - Value object class representing Internet domain names
 
 =head1 VERSION
 
-This document describes Value::Object::Domain version 0.07
+This document describes Value::Object::Domain version 0.10
 
 
 =head1 SYNOPSIS
@@ -102,7 +100,7 @@ C<Value::Object::Domain> requires no configuration files or environment variable
 
 =head1 DEPENDENCIES
 
-L<Moo>, L<namespace::clean>
+L<parent>
 
 =head1 INCOMPATIBILITIES
 
@@ -113,7 +111,7 @@ None reported.
 No bugs have been reported.
 
 Please report any bugs or feature requests to
-C<bug-moox-value@rt.cpan.org>, or through the web interface at
+C<bug-value-object@rt.cpan.org>, or through the web interface at
 L<http://rt.cpan.org>.
 
 =head1 AUTHOR

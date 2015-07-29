@@ -3,7 +3,7 @@ package Value::Object::ValidationUtils;
 use warnings;
 use strict;
 
-our $VERSION = '0.07';
+our $VERSION = '0.10';
 
 # RFC 1123 and 2181
 sub why_invalid_domain_name
@@ -105,6 +105,54 @@ sub is_valid_common_email_local_part
     return !defined $why;
 }
 
+sub why_invalid_iso_8601_date
+{
+    my ($value) = @_;
+    return ( 'date is undefined', '', undef ) unless defined $value;
+    return ( 'date is empty', '', undef ) unless length $value;
+    return ( 'date format is incorrect', '', undef )
+        unless $value =~ /\A([0-9]{4})-([0-9]{2})-([0-9]{2})\z/;
+    my ($year, $month, $day) = ($1, $2, $3);
+    return ( 'value month is out of range', '', $month )
+        unless 1 <= $month && $month <= 12;
+    return ( 'value day is out of range', '', $day )
+        unless 1 <= $day && $day <= 31;
+    return ( 'value day is out of range for month', '', $day )
+        if $day == 31 && grep { $month == $_ } (2, 4, 6, 9, 11);
+    return ( 'value day is out of range for February', '', $day )
+        if $day == 30 || ($day == 29 && !_is_leap_year( $year ));
+    return;
+}
+
+sub _is_leap_year
+{
+    my ($year) = @_;
+    return ($year % 4 == 0 && ($year % 100 != 0 || $year % 400 == 0));
+}
+
+sub why_invalid_iso_8601_time
+{
+    my ($value) = @_;
+    return ( 'time is undefined', '', undef ) unless defined $value;
+    return ( 'time is empty', '', undef ) unless length $value;
+    return ( 'time format is incorrect', '', undef )
+        unless $value =~ /\A([0-9]{2}):([0-9]{2})(?::([0-9]{2}(?:\.[0-9]+)?))(Z|[-+][0-9]{2}:[0-9]{2})\z/;
+    my ($hour, $minute, $second, $tzi) = ($1, $2, $3, $4);
+    return ( 'value hour is out of range', '', $hour )
+        unless $hour <= 23 || ($hour == 24 && $minute == 0);
+    return ( 'value minute is out of range', '', $minute )
+        unless $minute <= 59;
+    return ( 'value second is out of range', '', $second )
+        unless $second <= 60;  # Account for leap seconds
+    return if $tzi eq 'Z';
+    my ($tzh, $tzm) = $tzi =~ /(\d+):(\d+)/;
+    return ( 'value timezone hour offset is out of range', '', $tzh )
+        unless $tzh <= 23 || ($tzh == 24 && $tzm == 0);
+    return ( 'value timezone minute offset is out of range', '', $tzm )
+        unless $tzm <= 59;
+    return;
+}
+
 1;
 __END__
 
@@ -114,7 +162,7 @@ Value::Object::ValidationUtils - Utility functions for validation of value objec
 
 =head1 VERSION
 
-This document describes Value::Object::ValidationUtils version 0.07
+This document describes Value::Object::ValidationUtils version 0.10
 
 =head1 SYNOPSIS
 
@@ -192,6 +240,26 @@ Returns true if the supplied C<$str> is a valid email address as specified by
 common email address as defined by C<why_invalid_common_email_local_part>.
 Otherwise, return false.
 
+=head2 why_invalid_iso_8601_date( $str )
+
+Returns a three item list if the supplied C<$str> is not a valid date as specified
+by the W3C Date/Time format which conforms to ISO 8601 (YYYY-MM-DD).
+
+The first item is a short message describing the problem. The second item is
+empty and the third item is data relating to the failure.
+
+Returns an empty list if C<$str> is a valid ISO 8601 date.
+
+=head2 why_invalid_iso_8601_time( $str )
+
+Returns a three item list if the supplied C<$str> is not a valid time as specified
+by the W3C Date/Time format which conforms to ISO 8601 (HH:MM:SS(.SSS)?(Z|[+-]HH:MM)).
+
+The first item is a short message describing the problem. The second item is
+empty and the third item is data relating to the failure.
+
+Returns an empty list if C<$str> is a valid ISO 8601 Time.
+
 =head1 CONFIGURATION AND ENVIRONMENT
 
 C<Value::Object::ValidationUtils> requires no configuration files or environment variables.
@@ -209,7 +277,7 @@ None reported.
 No bugs have been reported.
 
 Please report any bugs or feature requests to
-C<bug-moox-value@rt.cpan.org>, or through the web interface at
+C<bug-value-object@rt.cpan.org>, or through the web interface at
 L<http://rt.cpan.org>.
 
 =head1 AUTHOR
