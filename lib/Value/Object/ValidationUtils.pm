@@ -120,11 +120,11 @@ sub why_invalid_iso_8601_date
     return ( 'value day is out of range for month', '', $day )
         if $day == 31 && grep { $month == $_ } (2, 4, 6, 9, 11);
     return ( 'value day is out of range for February', '', $day )
-        if $day == 30 || ($day == 29 && !is_leap_year( $year ));
+        if $day == 30 || ($day == 29 && !_is_leap_year( $year ));
     return;
 }
 
-sub is_leap_year
+sub _is_leap_year
 {
     my ($year) = @_;
     return ($year % 4 == 0 && ($year % 100 != 0 || $year % 400 == 0));
@@ -239,6 +239,26 @@ Returns an empty list if C<$str> is a valid common email local part.
 Returns true if the supplied C<$str> is a valid email address as specified by
 common email address as defined by C<why_invalid_common_email_local_part>.
 Otherwise, return false.
+
+=head2 why_invalid_iso_8601_date( $str )
+
+Returns a three item list if the supplied C<$str> is not a valid date as specified
+by the W3C Date/Time format which conforms to ISO 8601 (YYYY-MM-DD).
+
+The first item is a short message describing the problem. The second item is
+empty and the third item is data relating to the failure.
+
+Returns an empty list if C<$str> is a valid ISO 8601 date.
+
+=head2 why_invalid_iso_8601_time( $str )
+
+Returns a three item list if the supplied C<$str> is not a valid time as specified
+by the W3C Date/Time format which conforms to ISO 8601 (HH:MM:SS(.SSS)?(Z|[+-]HH:MM)).
+
+The first item is a short message describing the problem. The second item is
+empty and the third item is data relating to the failure.
+
+Returns an empty list if C<$str> is a valid ISO 8601 Time.
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
