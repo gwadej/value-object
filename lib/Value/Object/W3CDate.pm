@@ -7,7 +7,7 @@ use Value::Object::ValidationUtils;
 
 use parent 'Value::Object';
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 sub _why_invalid
 {
@@ -27,7 +27,7 @@ Value::Object::W3CDate - Validate W3C dates as specified by ISO 8601
 
 =head1 VERSION
 
-This document describes Value::Object::W3CDate version 0.10
+This document describes Value::Object::W3CDate version 0.11
 
 =head1 SYNOPSIS
 

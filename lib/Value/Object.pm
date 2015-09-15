@@ -3,7 +3,7 @@ package Value::Object;
 use warnings;
 use strict;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 sub value
 {
@@ -57,7 +57,7 @@ sub _untaint
     # This is usually a very bad idea. It should be safe here because the class
     # has, by definition, validated the input before we get to this function.
     # If there is a problem, the validation code should be corrected.
-    $value =~ m/\A(.*)\z/;
+    $value =~ m/\A(.*)\z/sm;
     return $1;
 }
 
@@ -70,7 +70,7 @@ Value::Object - Base class for minimal Value Object classes
 
 =head1 VERSION
 
-This document describes Value::Object version 0.10
+This document describes Value::Object version 0.11
 
 =head1 SYNOPSIS
 

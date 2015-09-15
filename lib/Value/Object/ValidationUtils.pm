@@ -3,7 +3,7 @@ package Value::Object::ValidationUtils;
 use warnings;
 use strict;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 # RFC 1123 and 2181
 sub why_invalid_domain_name
@@ -162,7 +162,7 @@ Value::Object::ValidationUtils - Utility functions for validation of value objec
 
 =head1 VERSION
 
-This document describes Value::Object::ValidationUtils version 0.10
+This document describes Value::Object::ValidationUtils version 0.11
 
 =head1 SYNOPSIS
 

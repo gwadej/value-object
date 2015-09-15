@@ -13,7 +13,7 @@ if($@)
 }
 else
 {
-    plan tests => 1;
+    plan tests => 4;
 }
 
 use Value::Object;
@@ -26,11 +26,15 @@ use Value::Object;
     {
         my ($self, $value) = @_;
 
-        return $value =~ m/\A\S+\z/;
+        return $value =~ m/\A.+\z/sm;
     }
 }
 
 SKIP: {
-    skip "No USER environment variable to test against.", 1 unless $ENV{USER};
+    skip "No USER environment variable to test against.", 2 unless $ENV{USER};
     lives_and { ok !Scalar::Util::tainted( TestValue->new( $ENV{USER} )->value ); } 'Value is no longer tainted';
+    my $long;
+    lives_ok { $long = TestValue->new( "String\nLine2" ) } 'Successfully created.';
+    ok !Scalar::Util::tainted( $long->value ), 'Value is no longer tainted';
+    is $long->value, "String\nLine2", 'Value is no longer tainted';
 }

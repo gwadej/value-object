@@ -6,7 +6,7 @@ use strict;
 use Value::Object::ValidationUtils;
 use Value::Object::Domain;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 use parent 'Value::Object';
 
@@ -68,7 +68,7 @@ Value::Object::EmailAddress - A value object representing a valid email address.
 
 =head1 VERSION
 
-This document describes Value::Object::EmailAddress version 0.10
+This document describes Value::Object::EmailAddress version 0.11
 
 =head1 SYNOPSIS
 
