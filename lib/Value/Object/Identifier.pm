@@ -3,7 +3,7 @@ package Value::Object::Identifier;
 use warnings;
 use strict;
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 use parent 'Value::Object';
 
@@ -27,7 +27,7 @@ Value::Object::Identifier - Value object class representing a legal C identifier
 
 =head1 VERSION
 
-This document describes Value::Object::Identifier version 0.11
+This document describes Value::Object::Identifier version 0.12
 
 =head1 SYNOPSIS
 

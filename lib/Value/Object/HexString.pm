@@ -5,7 +5,7 @@ use warnings;
 
 use parent 'Value::Object';
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 sub _why_invalid
 {
@@ -32,7 +32,7 @@ Value::Object::HexString - Value representing a valid Hexadecimal string.
 
 =head1 VERSION
 
-This document describes Value::Object::HexString version 0.11
+This document describes Value::Object::HexString version 0.12
 
 
 =head1 SYNOPSIS

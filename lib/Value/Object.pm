@@ -3,7 +3,7 @@ package Value::Object;
 use warnings;
 use strict;
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 sub value
 {
@@ -70,7 +70,7 @@ Value::Object - Base class for minimal Value Object classes
 
 =head1 VERSION
 
-This document describes Value::Object version 0.11
+This document describes Value::Object version 0.12
 
 =head1 SYNOPSIS
 

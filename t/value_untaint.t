@@ -7,7 +7,7 @@ use strict;
 use warnings;
 
 eval "use Scalar::Util;";  ## no critic (ProhibitStringyEval)
-if($@)
+if($@ || !UNIVERSAL::can( 'Scalar::Util', 'tainted' ))
 {
     plan skip_all => 'Ignore taint check without Scalar::Util';
 }

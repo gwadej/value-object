@@ -1,5 +1,7 @@
 Revision history for Value-Object
 
+0.12  2015-09-28
+  - Fix the untainting test for old versions of Scalar::Util.
 0.11  2015-09-14
   - Untainting code failed if there was a newline in the value. All of my test
     objects were short strings.
