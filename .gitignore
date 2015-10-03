@@ -6,3 +6,4 @@ MooX-Value-*
 Makefile
 *.old
 *.bak
+Value-Object*.gz
