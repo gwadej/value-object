@@ -1,5 +1,7 @@
 Revision history for Value-Object
 
+0.13  2015-10-03
+  - Correct enironment variable skip test.
 0.12  2015-09-28
   - Fix the untainting test for old versions of Scalar::Util.
 0.11  2015-09-14
