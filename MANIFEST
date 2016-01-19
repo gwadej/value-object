@@ -14,7 +14,7 @@ Makefile.PL
 MANIFEST
 MANIFEST.SKIP
 README
-t/00.load.t
+t/00-compile.t
 t/value-common_email_address.t
 t/value-domain.t
 t/value-domain_create_subdomain.t

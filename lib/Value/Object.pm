@@ -3,7 +3,7 @@ package Value::Object;
 use warnings;
 use strict;
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 sub value
 {
@@ -16,7 +16,7 @@ sub new
     my ($class, $value) = @_;
     my $self = bless \$value, $class;
 
-    my ($why, $long, $data) = $self->_why_invalid( $self->value );
+    my ($why, $long, $data) = $self->_why_invalid( $value );
     $self->_throw_exception( $why, $long, $data ) if defined $why;
     ${$self} = $self->_untaint( $self->value );
 
@@ -70,7 +70,7 @@ Value::Object - Base class for minimal Value Object classes
 
 =head1 VERSION
 
-This document describes Value::Object version 0.13
+This document describes Value::Object version 0.14
 
 =head1 SYNOPSIS
 

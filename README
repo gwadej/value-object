@@ -1,4 +1,4 @@
-Value-Object version 0.07
+Value-Object version 0.14
 
 This class serves as a base class for classes implementing the "Value Object"
 pattern. The core principles of a Value Object class are:

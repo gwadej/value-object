@@ -5,7 +5,7 @@ use strict;
 
 use Value::Object::ValidationUtils;
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 use parent 'Value::Object';
 
@@ -33,7 +33,7 @@ Value::Object::DomainLabel - Value object representing 1 label of an Internet do
 
 =head1 VERSION
 
-This document describes Value::Object::DomainLabel version 0.13
+This document describes Value::Object::DomainLabel version 0.14
 
 =head1 SYNOPSIS
 
