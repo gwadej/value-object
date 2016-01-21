@@ -3,24 +3,23 @@
 
 use Test::More;
 use lib 'lib';
-use Path::Tiny;
+use File::Find;
 
 use strict;
 use warnings;
 
 # try to import every .pm file in /lib
-my $dir = path('lib/');
-my $iter = $dir->iterator({
-            recurse         => 1,
-            follow_symlinks => 0,
-           });
-while(my $path = $iter->())
+find( { wanted => \&try_require, follow => 0, no_chdir => 1 }, 'lib' );
+
+sub try_require
 {
-    next if $path->is_dir || $path !~ /\.pm$/;
-    my $module = $path->relative;
+    my $file = $File::Find::name;
+    return if -d $file || $file !~ /\.pm\z/;
+    my $module = $file;
     $module =~ s!^lib/!!;
     $module =~ s/\.pm$//;
     $module =~ s!/!::!g;
     BAIL_OUT( "$module does not compile" ) unless require_ok( $module );
+    return;
 }
 done_testing;

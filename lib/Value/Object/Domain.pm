@@ -5,7 +5,7 @@ use strict;
 
 use Value::Object::ValidationUtils;
 
-our $VERSION = '0.14';
+our $VERSION = '0.15';
 
 use parent 'Value::Object';
 
@@ -42,7 +42,7 @@ Value::Object::Domain - Value object class representing Internet domain names
 
 =head1 VERSION
 
-This document describes Value::Object::Domain version 0.14
+This document describes Value::Object::Domain version 0.15
 
 
 =head1 SYNOPSIS

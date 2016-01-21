@@ -5,7 +5,7 @@ use warnings;
 
 use parent 'Value::Object::W3CDateTime';
 
-our $VERSION = '0.14';
+our $VERSION = '0.15';
 
 sub _why_invalid
 {
@@ -27,7 +27,7 @@ Value::Object::W3CDateTimeZ - Validate ISO 8601 full times with Z as timezone
 
 =head1 VERSION
 
-This document describes Value::Object::W3CDateTimeZ version 0.14
+This document describes Value::Object::W3CDateTimeZ version 0.15
 
 
 =head1 SYNOPSIS

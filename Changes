@@ -1,5 +1,7 @@
 Revision history for Value-Object
 
+0.15  2016-01-20
+  - Remove accidental testing dependency on Path::Tiny
 0.14  2016-01-18
   - Correct handling of value in new.
 0.13  2015-10-03
