@@ -1,5 +1,7 @@
 Revision history for Value-Object
 
+0.16  2017-??-??
+  - Fix leap day check
 0.15  2016-01-20
   - Remove accidental testing dependency on Path::Tiny
 0.14  2016-01-18

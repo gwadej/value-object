@@ -21,13 +21,25 @@ my @invalid_dates = (
     [ '2015/07/27', 'Wrong date separator' ],
 );
 
-plan tests => 3 + @invalid_dates;
+my @valid_dates = (
+    [ '1970-01-01', 'Beginning of epoch' ],
+    [ '1999-12-31', 'Last day of long month' ],
+    [ '2017-09-30', 'Last day of short month' ],
+    [ '1980-02-29', 'Leap day' ],
+);
+
+plan tests => 3 + @invalid_dates + @valid_dates;
 
 throws_ok { Value::Object::W3CDate->new() } qr/\AValue::Object::W3CDate/, 'Undefined value';
 
 foreach my $test ( @invalid_dates )
 {
     throws_ok { Value::Object::W3CDate->new( $test->[0] ) } qr/\AValue::Object::W3CDate/, "Bad date: $test->[1]";
+}
+
+foreach my $test ( @valid_dates )
+{
+    lives_ok { Value::Object::W3CDate->new( $test->[0] ) }  "Valid date: $test->[1]";
 }
 
 my $date = Value::Object::W3CDate->new( '2015-07-27' );

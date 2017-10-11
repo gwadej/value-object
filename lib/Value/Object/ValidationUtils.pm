@@ -120,7 +120,7 @@ sub why_invalid_iso_8601_date
     return ( 'value day is out of range for month', '', $day )
         if $day == 31 && grep { $month == $_ } (2, 4, 6, 9, 11);
     return ( 'value day is out of range for February', '', $day )
-        if $day == 30 || ($day == 29 && !_is_leap_year( $year ));
+        if $month == 2 && ($day == 30 || ($day == 29 && !_is_leap_year( $year )));
     return;
 }
 
